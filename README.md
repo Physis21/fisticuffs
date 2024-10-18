@@ -1,2 +1,3 @@
-# fisticuffs_repo_v1.0.0
+# fisticuffs_v1.0.0
+Follow structure from "godot platform fighter series".
  
