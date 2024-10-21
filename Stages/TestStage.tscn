@@ -1,9 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://cnx3hv3o6thgv"]
+[gd_scene load_steps=4 format=3 uid="uid://cnx3hv3o6thgv"]
 
 [ext_resource type="Texture2D" uid="uid://cw1sj2trpkjbx" path="res://Stages/crossroad/taiwan_crossroad_day.jpg" id="1_n2buv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_62erq"]
-size = Vector2(799, 37)
+size = Vector2(799.5, 48)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bqknq"]
+size = Vector2(20, 552)
 
 [node name="Node2D" type="Node2D"]
 
@@ -12,10 +15,33 @@ position = Vector2(372.321, 301)
 scale = Vector2(0.267318, 0.267318)
 texture = ExtResource("1_n2buv")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="Floor" type="StaticBody2D" parent="."]
+collision_layer = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(400, 564)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+position = Vector2(399.75, 576)
 shape = SubResource("RectangleShape2D_62erq")
 
-[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+[node name="Walls" type="StaticBody2D" parent="."]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls"]
+position = Vector2(10, 276)
+shape = SubResource("RectangleShape2D_bqknq")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Walls"]
+position = Vector2(792, 276)
+shape = SubResource("RectangleShape2D_bqknq")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(1.777, 1.777)
+limit_left = -400
+limit_top = -300
+limit_right = 400
+limit_bottom = 300
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
+drag_left_margin = 0.0
+drag_right_margin = 0.0
+editor_draw_limits = true
+editor_draw_drag_margin = true
