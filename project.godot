@@ -19,6 +19,57 @@ config/icon="res://icon.svg"
 window/size/viewport_width=800
 window/size/viewport_height=600
 
+[input]
+
+right_1={
+"deadzone": 0.5,
+"events": []
+}
+r_right_1={
+"deadzone": 0.5,
+"events": []
+}
+left_1={
+"deadzone": 0.5,
+"events": []
+}
+r_left_1={
+"deadzone": 0.5,
+"events": []
+}
+up_1={
+"deadzone": 0.5,
+"events": []
+}
+r_up_1={
+"deadzone": 0.5,
+"events": []
+}
+down_1={
+"deadzone": 0.5,
+"events": []
+}
+r_down_1={
+"deadzone": 0.5,
+"events": []
+}
+shield_1={
+"deadzone": 0.5,
+"events": []
+}
+jump_1={
+"deadzone": 0.5,
+"events": []
+}
+attack_A_1={
+"deadzone": 0.5,
+"events": []
+}
+attack_B_1={
+"deadzone": 0.5,
+"events": []
+}
+
 [layer_names]
 
 2d_physics/layer_1="Player"

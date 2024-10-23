@@ -35,13 +35,13 @@ func set_state(new_state):
 		enter_state(new_state, previous_state)
 		
 func add_state(state_name):
-	states[state_name] = state.size()
+	states[state_name] = state.size()  # returns nb of entries in dictionary
 
 # Called when the node enters the scene tree for the first time.
-func _ready() -> void:
+func _ready():
 	pass # Replace with function body.
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(delta):
 	pass
