@@ -20,7 +20,7 @@ func turn(direction):
 	# flipped compared to tutorial because his fox faces left
 	var dir = 0
 	if direction:  # face right
-		dir = 1
+		dir = +1
 	else:  # face left
 		dir = -1
 	$Sprite.set_flip_h(direction)

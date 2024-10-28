@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://cnx3hv3o6thgv"]
+[gd_scene load_steps=5 format=3 uid="uid://cnx3hv3o6thgv"]
 
 [ext_resource type="Texture2D" uid="uid://cw1sj2trpkjbx" path="res://Stages/crossroad/taiwan_crossroad_day.jpg" id="1_n2buv"]
+[ext_resource type="PackedScene" uid="uid://xpa8xrbb1pkb" path="res://Characters/John/John.tscn" id="2_ea7ob"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_62erq"]
 size = Vector2(799.5, 48)
@@ -34,6 +35,7 @@ position = Vector2(792, 276)
 shape = SubResource("RectangleShape2D_bqknq")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+offset = Vector2(400, 400)
 zoom = Vector2(1.777, 1.777)
 limit_left = -400
 limit_top = -300
@@ -45,3 +47,6 @@ drag_left_margin = 0.0
 drag_right_margin = 0.0
 editor_draw_limits = true
 editor_draw_drag_margin = true
+
+[node name="JOHN" parent="." instance=ExtResource("2_ea7ob")]
+position = Vector2(200, 488)

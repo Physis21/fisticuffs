@@ -20,18 +20,18 @@ func state_logic(delta):
 	
 func get_transition(delta):
 	# TODO: CONTINUE HERE
-	parent.move_and_slide(parent.velocity * 2)
+	parent.move_and_slide()
 	match state:
 		states.STAND:
-			if Input.get_action_strength("right_%" % id) == 1:
+			if Input.get_action_strength("right_%s" % id) == 1:
 				parent.velocity.x = parent.WALKSPEED
 				parent._frame()
-				parent.turn(true)
+				parent.turn(false)
 				return states.WALK
-			if Input.get_action_strength("left_%" % id) == 1:
+			if Input.get_action_strength("left_%s" % id) == 1:
 				parent.velocity.x = -parent.WALKSPEED
 				parent._frame()
-				parent.turn(false)
+				parent.turn(true)
 				return states.WALK
 			if parent.velocity.x > 0 and state == states.STAND:
 				parent.velocity.x += -parent.TRACTION * 1
@@ -48,7 +48,16 @@ func get_transition(delta):
 		states.DASH:
 			pass
 		states.WALK:
-			pass
+			if Input.is_action_pressed("left_%s" % id):
+				if parent.velocity.x > 0:
+					parent._frame()
+				parent.velocity.x = -parent.WALKSPEED
+			if Input.is_action_pressed("right_%s" % id):
+				if parent.velocity.x < 0:
+					parent._frame()
+				parent.velocity.x = parent.WALKSPEED
+			else:
+				return states.STAND
 		states.CROUCH:
 			pass
 

@@ -3,3 +3,7 @@ Follow structure from "godot platform fighter series".
  
 ## Dimensions
 For now, keep 800 width and 600 height, for a 4:3 ratio like SF3
+
+## Differences with respect to tutorial
+- Walk takes place of Dash
+- frame function is _frame, to not be redundant with frame var
