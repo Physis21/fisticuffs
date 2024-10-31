@@ -7,3 +7,8 @@ For now, keep 800 width and 600 height, for a 4:3 ratio like SF3
 ## Differences with respect to tutorial
 - Walk takes place of Dash
 - frame function is _frame, to not be redundant with frame var
+
+## Progression
+- Part 4, 21:00
+- Check why we fall through floor after jumping, check raycasts which may be different in godot 4
+ 

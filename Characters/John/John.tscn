@@ -1,4 +1,4 @@
-[gd_scene load_steps=90 format=3 uid="uid://xpa8xrbb1pkb"]
+[gd_scene load_steps=91 format=3 uid="uid://xpa8xrbb1pkb"]
 
 [ext_resource type="Texture2D" uid="uid://wuevtkqvt281" path="res://Characters/John/sprites/W4.png" id="1_00er6"]
 [ext_resource type="Script" path="res://Characters/John/StateMachineJohn.gd" id="1_lswjr"]
@@ -853,6 +853,35 @@ tracks/1/keys = {
 "values": [0, 1]
 }
 
+[sub_resource type="Animation" id="Animation_1f66h"]
+resource_name = "j_squat"
+length = 0.0833352
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"j5"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.0833335),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_i7y45"]
 _data = {
 "A5": SubResource("Animation_6by1f"),
@@ -866,7 +895,8 @@ _data = {
 "j5": SubResource("Animation_1003t"),
 "j5A": SubResource("Animation_14f16"),
 "j5B": SubResource("Animation_oi81b"),
-"j5Hit": SubResource("Animation_ihdvd")
+"j5Hit": SubResource("Animation_ihdvd"),
+"j_squat": SubResource("Animation_1f66h")
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hy7yn"]
@@ -879,6 +909,7 @@ script = ExtResource("1_x5q8j")
 script = ExtResource("1_lswjr")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(7, 0)
 sprite_frames = SubResource("SpriteFrames_6qc4k")
 animation = &"W5"
 
@@ -888,12 +919,20 @@ libraries = {
 }
 
 [node name="CollisionBox" type="CollisionShape2D" parent="."]
-position = Vector2(-5.5, 4)
+position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_hy7yn")
 
-[node name="Raycasts" type="Node" parent="."]
+[node name="Raycasts" type="Node2D" parent="."]
 
-[node name="Ground" type="RayCast2D" parent="Raycasts"]
+[node name="GroundL" type="RayCast2D" parent="Raycasts"]
+position = Vector2(-11, 39)
+target_position = Vector2(0, 10)
+collision_mask = 6
+
+[node name="GroundR" type="RayCast2D" parent="Raycasts"]
+position = Vector2(16, 39)
+target_position = Vector2(0, 10)
+collision_mask = 6
 
 [node name="Frames" type="Label" parent="."]
 offset_left = -26.0
