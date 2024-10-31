@@ -28,6 +28,8 @@ func get_transition(delta):
 	if Landing() == true:
 		parent._frame()
 		return states.LANDING
+	else:
+		return states.STAND
 		
 	if Falling() == true:
 		return states.AIR
