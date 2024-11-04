@@ -25,14 +25,22 @@ func get_transition(delta):
 	parent.move_and_slide()
 	parent.state.text = str(state)
 	
-	if Landing() == true:
+	#if Landing() == true:
+		#parent._frame()
+		#return states.LANDING
+		#
+	#if Falling() == true:
+		#return states.AIR
+	
+	# my way of coding falling, without raycasts
+	if states.AIR and parent.is_on_floor():
+		print("John landed on the floor")
+		parent.fastfall = false
 		parent._frame()
 		return states.LANDING
-	else:
-		return states.STAND
-		
-	if Falling() == true:
-		return states.AIR
+	
+	#if not parent.is_on_floor():
+		#return states.AIR
 	
 	match state:
 		states.STAND:
@@ -58,7 +66,7 @@ func get_transition(delta):
 		states.JUMP_SQUAT:
 			if parent.frame == parent.jump_squat:
 				if not Input.is_action_pressed("jump_%s" % id):
-					parent.velocity.x = lerp(parent.velocity.x, 0, 0.08)  # slow towards 0 at 8%
+					parent.velocity.x = lerp(parent.velocity.x, 0.0, 0.08)  # slow towards 0 at 8%
 					parent._frame()
 					return states.SHORT_HOP
 				else:
@@ -94,6 +102,7 @@ func get_transition(delta):
 		states.AIR:
 			AIRMOVEMENT()
 		states.LANDING:
+			print("John is landing")
 			if parent.frame <= parent.landing_frames + parent.lag_frames:
 				if parent.frame == 1:
 					pass
@@ -136,7 +145,7 @@ func AIRMOVEMENT():
 		parent.velocity.y = parent.MAXFALLSPEED
 		parent.fastfall = true
 	if parent.fastfall == true:
-		parent.set_collision_mask_bit(2, false)
+		#parent.set_collision_mask_bit(2, false)  # go through platforms
 		parent.velocity.y = parent.MAXFALLSPEED
 		
 	if abs(parent.velocity.x) >= abs(parent.MAXAIRSPEED):
@@ -154,7 +163,7 @@ func AIRMOVEMENT():
 	if abs(parent.velocity.x) < abs(parent.MAXAIRSPEED):
 		if Input.is_action_pressed("left_%s" % id):
 			parent.velocity.x += -parent.AIR_ACCEL
-		if Input.is_action_pressed("righ_%s" % id):
+		if Input.is_action_pressed("right_%s" % id):
 			parent.velocity.x += parent.AIR_ACCEL
 	
 	if not Input.is_action_pressed("left_%s" % id) and not Input.is_action_pressed("right_%s" % id):
@@ -171,7 +180,6 @@ func Landing():
 			print("colliding GroundL")
 			parent.frame = 0
 			if parent.velocity.y > 0:
-				print("set y velocity to 0")
 				parent.velocity.y = 0
 			parent.fastfall = false
 			return true
@@ -185,6 +193,11 @@ func Landing():
 			return true
 
 func Falling():
+	#var collider = parent.get_node("CollisionBox")
+	#return false
+	#if collider:
+		#print("collided")
+		#return true
 	if state_includes([states.RUN, states.WALK, states.STAND, states.CROUCH, states.DASH, states.LANDING, states.JUMP_SQUAT]):
 		if not parent.GroundL.is_colliding() and not parent.GroundR.is_colliding():
 			return true
