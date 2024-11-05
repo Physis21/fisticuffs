@@ -81,10 +81,12 @@ func get_transition(delta):
 				if parent.velocity.x > 0:
 					parent._frame()
 				parent.velocity.x = -parent.WALKSPEED
+				parent.turn(true)
 			elif Input.is_action_pressed("right_%s" % id):
 				if parent.velocity.x < 0:
 					parent._frame()
 				parent.velocity.x = parent.WALKSPEED
+				parent.turn(false)
 			else:
 				return states.STAND
 		states.CROUCH:
