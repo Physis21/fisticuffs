@@ -167,9 +167,9 @@ func AIRMOVEMENT():
 				parent.velocity.x = parent.velocity.x
 		if parent.velocity.x < 0 :
 			if Input.is_action_pressed("left_%s" % id):
-				parent.velocity.x += -parent.velocity.x
+				parent.velocity.x = parent.velocity.x
 			elif Input.is_action_pressed("right_%s" % id):
-				parent.velocity.x = parent.AIR_ACCEL
+				parent.velocity.x += parent.AIR_ACCEL
 				
 	if abs(parent.velocity.x) < abs(parent.MAXAIRSPEED):
 		if Input.is_action_pressed("left_%s" % id):
