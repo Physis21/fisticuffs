@@ -40,10 +40,8 @@ func turn(direction):
 	var dir = 0
 	if direction:  # face right
 		dir = +1
-		$Sprite.position.x = -7
 	else:  # face left
 		dir = -1
-		$Sprite.position.x = 7
 	$Sprite.set_flip_h(direction)
 
 func _frame():
