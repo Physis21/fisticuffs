@@ -2,7 +2,7 @@
 Follow structure from "godot platform fighter series".
  
 ## Dimensions
-For now, keep 1200 width and 900 height, for a 4:3 ratio like SF3
+For now, keep 1200 width and 900 height, for a 4:3 ratio like SF3 and MBAACC
 
 ## Differences with respect to tutorial
 - Walk takes place of Dash
