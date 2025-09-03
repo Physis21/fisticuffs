@@ -3,6 +3,7 @@ extends CharacterBody2D
 # from fox stats
 
 # Ground Variables
+var initial_run : int = false
 
 # Air Variables
 var fastfall : bool = false
@@ -18,17 +19,17 @@ var previous_mov_input : String = 'neutral'
 @onready var anim = $Sprite/AnimationPlayer
 
 # JOHN's main attributes
-const WALKSPEED = 200 # 200.0 * 2
-const DASHSPEED = 400 # 390 * 2
-const GRAVITY = 1800 * 2
-const JUMPFORCE = 900 # 500 * 2
-const MAXJUMPFORCE = 1200 # 1000 * 2
-const MAXAIRSPEED = 300 # 300 * 2
-const AIR_ACCEL = 10
-const FALLSPEED = 60 # 60 * 2
-const FALLINGSPEED = 800 # 900 * 2
-const MAXFALLSPEED = 800 # 900 * 2
-const TRACTION = 200 * 2
+const WALKSPEED : int = 200 # 200.0 * 2
+const RUNSPEED : int = 800 # 390 * 2
+const GRAVITY : int = 1800 * 2
+const JUMPFORCE : int = 900 # 500 * 2
+const MAXJUMPFORCE : int = 1200 # 1000 * 2
+const MAXAIRSPEED : int = 300 # 300 * 2
+const AIR_ACCEL : int = 10
+const FALLSPEED : int = 60 # 60 * 2
+const FALLINGSPEED : int = 800 # 900 * 2
+const MAXFALLSPEED : int = 800 # 900 * 2
+const TRACTION : int = 400 * 2
 
 @onready var state = $State
 

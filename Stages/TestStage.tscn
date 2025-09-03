@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://cnx3hv3o6thgv"]
+[gd_scene load_steps=6 format=3 uid="uid://cnx3hv3o6thgv"]
 
 [ext_resource type="Texture2D" uid="uid://cw1sj2trpkjbx" path="res://Stages/crossroad/taiwan_crossroad_day.jpg" id="1_n2buv"]
 [ext_resource type="PackedScene" uid="uid://xpa8xrbb1pkb" path="res://Characters/John/John.tscn" id="2_ea7ob"]
+[ext_resource type="Script" path="res://Stages/StageCamera.gd" id="2_ysrxa"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_62erq"]
 size = Vector2(1200, 100)
@@ -36,18 +37,20 @@ position = Vector2(1190, 400)
 shape = SubResource("RectangleShape2D_bqknq")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-offset = Vector2(600, 550)
+offset = Vector2(0, -50)
 zoom = Vector2(1.4, 1.4)
-limit_left = -400
-limit_top = -300
-limit_right = 400
-limit_bottom = 300
+process_callback = 0
+limit_left = 0
+limit_top = 0
+limit_right = 1200
+limit_bottom = 900
 drag_horizontal_enabled = true
 drag_vertical_enabled = true
 drag_left_margin = 0.0
 drag_right_margin = 0.0
 editor_draw_limits = true
 editor_draw_drag_margin = true
+script = ExtResource("2_ysrxa")
 
 [node name="JOHN" parent="." instance=ExtResource("2_ea7ob")]
 position = Vector2(338, 679)
