@@ -8,7 +8,7 @@ extends CharacterBody2D
 var fastfall = false
 var jump_squat = 5
 var lag_frames = 0
-var landing_frames = 0
+var landing_frames = 3
 var previous_mov_input : int = 5
 
 # Onready Variables
