@@ -5,10 +5,10 @@ extends CharacterBody2D
 # Ground Variables
 
 # Air Variables
-var fastfall = false
-var jump_squat = 5
-var lag_frames = 0
-var landing_frames = 3
+var fastfall : bool = false
+var jump_squat : int = 5
+var lag_frames:  int = 0
+var landing_frames : int = 3
 var previous_mov_input : int = 5
 
 # Onready Variables

@@ -5,15 +5,13 @@ extends StateMachine
 func _ready():
 	add_state('STAND')  # idle
 	add_state('JUMP_SQUAT')
-	add_state('SHORT_HOP_5')
-	add_state('SHORT_HOP_6')
-	add_state('SHORT_HOP_4')
-	add_state('FULL_HOP_5')
-	add_state('FULL_HOP_6')
-	add_state('FULL_HOP_4')
+	add_state('SHORT_HOP')
+	add_state('FULL_HOP')
 	add_state('DASH')
 	add_state('RUN')
 	add_state('WALK')
+	add_state('MOONWALK')
+	add_state('TURN')
 	add_state('CROUCH')
 	add_state('AIR')
 	add_state('LANDING')
@@ -68,47 +66,25 @@ func get_transition(delta):
 				if not Input.is_action_pressed("jump_%s" % id):
 					#parent.velocity.x = lerpf(parent.velocity.x, 0.0, 0.8)  # slow towards 0 at 8%
 					parent._frame()
-					if parent.previous_mov_input == 5:
-						return states.SHORT_HOP_5
-					elif parent.previous_mov_input == 6:
-						return states.SHORT_HOP_6
-					elif parent.previous_mov_input == 4:
-						return states.SHORT_HOP_4
+					return states.SHORT_HOP
 				else:
 					#parent.velocity.x = lerpf(parent.velocity.x, 0.0, 0.08)
 					parent._frame()
-					if parent.previous_mov_input == 5:
-						return states.FULL_HOP_5
-					elif parent.previous_mov_input == 6:
-						return states.FULL_HOP_6
-					elif parent.previous_mov_input == 4:
-						return states.FULL_HOP_4
-		states.SHORT_HOP_5:
+					return states.FULL_HOP
+		states.SHORT_HOP:
 			parent.velocity.y = -parent.JUMPFORCE
+			if parent.previous_mov_input == 6:
+				parent.velocity.x = parent.MAXAIRSPEED
+			elif parent.previous_mov_input == 4:
+				parent.velocity.x = -parent.MAXAIRSPEED
 			parent._frame()
 			return states.AIR
-		states.SHORT_HOP_6:
-			parent.velocity.y = -parent.JUMPFORCE
-			parent.velocity.x = parent.MAXAIRSPEED
-			parent._frame()
-			return states.AIR
-		states.SHORT_HOP_4:
-			parent.velocity.y = -parent.JUMPFORCE
-			parent.velocity.x = -parent.MAXAIRSPEED
-			parent._frame()
-			return states.AIR
-		states.FULL_HOP_5:
+		states.FULL_HOP:
 			parent.velocity.y = -parent.MAXJUMPFORCE
-			parent._frame()
-			return states.AIR
-		states.FULL_HOP_6:
-			parent.velocity.y = -parent.MAXJUMPFORCE
-			parent.velocity.x = parent.MAXAIRSPEED
-			parent._frame()
-			return states.AIR
-		states.FULL_HOP_4:
-			parent.velocity.y = -parent.MAXJUMPFORCE
-			parent.velocity.x = -parent.MAXAIRSPEED
+			if parent.previous_mov_input == 6:
+				parent.velocity.x = parent.MAXAIRSPEED
+			elif parent.previous_mov_input == 4:
+				parent.velocity.x = -parent.MAXAIRSPEED
 			parent._frame()
 			return states.AIR
 		states.DASH:
@@ -128,6 +104,7 @@ func get_transition(delta):
 				parent.velocity.x = parent.WALKSPEED
 				parent.turn(false)
 			else:
+				parent._frame()
 				return states.STAND
 		states.CROUCH:
 			pass
@@ -166,17 +143,9 @@ func enter_state(new_state, old_state):
 			parent.play_animation('6W')
 		states.JUMP_SQUAT:
 			parent.play_animation('jSquat')
-		states.SHORT_HOP_5:
+		states.SHORT_HOP:
 			parent.play_animation("jSquat")
-		states.SHORT_HOP_6:
-			parent.play_animation("jSquat")
-		states.SHORT_HOP_4:
-			parent.play_animation("jSquat")
-		states.FULL_HOP_5:
-			parent.play_animation("jSquat")
-		states.FULL_HOP_6:
-			parent.play_animation("jSquat")
-		states.FULL_HOP_4:
+		states.FULL_HOP:
 			parent.play_animation("jSquat")
 		states.AIR:
 			parent.play_animation("5JUp")
