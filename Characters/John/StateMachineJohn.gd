@@ -9,10 +9,10 @@ func _ready():
 	add_state('FULL_HOP')
 	add_state('RUN')
 	add_state('WALK')
-	add_state('MOONWALK')
 	add_state('TURN')
 	add_state('CROUCH')
-	add_state('AIR')
+	add_state('AIR_RISING')
+	add_state('AIR_FALLING')
 	add_state('LANDING')
 	# delays execution of code until there is an idle time in the main loop
 	call_deferred("set_state", states.STAND)  
@@ -33,7 +33,7 @@ func get_transition(delta):
 		return states.LANDING
 		
 	if Falling() == true:
-		return states.AIR
+		return states.AIR_FALLING
 	
 	match state:
 		states.STAND:
@@ -92,7 +92,7 @@ func get_transition(delta):
 			elif parent.previous_mov_input == 'left':
 				parent.velocity.x -= parent.MAXAIRSPEED
 			parent._frame()
-			return states.AIR
+			return states.AIR_RISING
 		states.FULL_HOP:
 			parent.velocity.y = -parent.MAXJUMPFORCE
 			if parent.previous_mov_input == 'right':
@@ -100,7 +100,7 @@ func get_transition(delta):
 			elif parent.previous_mov_input == 'left':
 				parent.velocity.x -= parent.MAXAIRSPEED
 			parent._frame()
-			return states.AIR
+			return states.AIR_RISING
 		states.RUN:
 			if Input.is_action_just_pressed("jump_%s" % id):
 				parent._frame()
@@ -154,8 +154,16 @@ func get_transition(delta):
 			if parent.velocity.x < 0:
 				parent.velocity.x = parent.velocity.x + parent.TRACTION / 2
 				parent.velocity.x = clampf(parent.velocity.x, parent.velocity.x, 0)
-		states.AIR:
+		states.AIR_RISING:
 			AIRMOVEMENT()
+			if parent.velocity.y > 0:
+				parent._frame()
+				return states.AIR_FALLING
+		states.AIR_FALLING:
+			AIRMOVEMENT()
+			if parent.velocity.y < 0:
+				parent._frame()
+				return states.AIR_RISING
 		states.LANDING:
 			if parent.frame <= parent.landing_frames + parent.lag_frames:
 				if parent.frame == 1:
@@ -195,8 +203,10 @@ func enter_state(new_state, old_state):
 			parent.play_animation("jSquat")
 		states.FULL_HOP:
 			parent.play_animation("jSquat")
-		states.AIR:
+		states.AIR_RISING:
 			parent.play_animation("5JUp")
+		states.AIR_FALLING:
+			parent.play_animation("5JDown")
 		states.LANDING:
 			parent.play_animation('jSquat')
 		states.CROUCH:
@@ -216,7 +226,7 @@ func AIRMOVEMENT():
 	var direction = get_rightleft(id)
 	if parent.velocity.y < parent.FALLINGSPEED:
 		parent.velocity.y += parent.FALLSPEED
-	if Input.is_action_pressed("down_%s" % id) and parent.velocity.y > -150 and not parent.fastfall:
+	if Input.is_action_pressed("down_%s" % id) and parent.velocity.y > -100 and not parent.fastfall:
 		parent.velocity.y = parent.MAXFALLSPEED
 		parent.fastfall = true
 	if parent.fastfall == true:
@@ -253,7 +263,7 @@ func AIRMOVEMENT():
 			
 			
 func Landing():
-	if state_includes([states.AIR]):
+	if state_includes([states.AIR_RISING, states.AIR_FALLING]):
 		if (parent.GroundL.is_colliding() or parent.GroundR.is_colliding()) and parent.velocity.y >= 0:
 			var collider = parent.GroundL.get_collider()
 			parent.frame = 0
