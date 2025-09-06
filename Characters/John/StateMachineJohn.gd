@@ -15,6 +15,8 @@ func _ready():
 	add_state('AIR_FALLING')
 	add_state('LANDING')
 	add_state('GROUND_ATTACK')
+	add_state('S5A')
+	add_state('S2A')
 	# delays execution of code until there is an idle time in the main loop
 	call_deferred("set_state", states.STAND)  
 	pass
@@ -35,6 +37,10 @@ func get_transition(delta):
 		
 	if Falling() == true:
 		return states.AIR_FALLING
+	
+	if Input.is_action_just_pressed("attack_A_%s" % id) && can_grounded_attack():
+		parent._frame()
+		return states.GROUND_ATTACK
 	
 	match state:
 		states.STAND:
@@ -188,6 +194,12 @@ func get_transition(delta):
 					parent.lag_frames = 0
 					return states.STAND
 				parent.lag_frames = 0
+		states.GROUND_ATTACK:
+			if Input.is_action_pressed("down_%s" % id):
+				parent._frame()
+				return states.S2A
+			parent._frame()
+			return states.S5A
 
 func enter_state(new_state, old_state):
 	parent.states.text = str(new_state)
@@ -222,6 +234,10 @@ func state_includes(state_array):
 		if state == each_state:
 			return true
 	return false
+	
+func can_grounded_attack():
+	if state_includes([states.STAND, states.WALK, states.RUN, states.CROUCH]):
+		return true
 	
 func AIRMOVEMENT():
 	var direction = get_rightleft(id)

@@ -372,6 +372,11 @@ animations = [{
 "name": &"jSquat",
 "speed": 5.0
 }, {
+"frames": [],
+"loop": true,
+"name": &"s2A",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ew1bw")
