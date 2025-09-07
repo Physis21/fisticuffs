@@ -170,6 +170,9 @@ func get_transition(delta):
 			if parent.velocity.x < 0:
 				parent.velocity.x = parent.velocity.x + parent.TRACTION / 2
 				parent.velocity.x = clampf(parent.velocity.x, parent.velocity.x, 0)
+			if parent.frame == 7:
+				parent._frame()
+				return states.CROUCHING
 		states.CROUCHING:
 			if Input.is_action_just_pressed("jump_%s" % id):
 				parent._frame()
@@ -352,7 +355,7 @@ func state_includes(state_array):
 	return false
 	
 func can_grounded_attack():
-	if state_includes([states.STAND, states.WALK, states.RUN, states.CROUCH]):
+	if state_includes([states.STAND, states.WALK, states.RUN, states.CROUCH, states.CROUCHING]):
 		return true
 
 func can_air_attack():
@@ -419,7 +422,7 @@ func Landing():
 			return true
 
 func Falling():
-	if state_includes([states.RUN, states.WALK, states.STAND, states.CROUCH, states.RUN, states.LANDING, states.JUMP_SQUAT]):
+	if state_includes([states.RUN, states.WALK, states.STAND, states.CROUCH, states.CROUCHING, states.RUN, states.LANDING, states.JUMP_SQUAT]):
 		if not parent.GroundL.is_colliding() and not parent.GroundR.is_colliding():
 			return true
 
@@ -428,5 +431,3 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 		parent.play_animation('6W')
 	if anim_name == '5Run':
 		parent.play_animation('6Run')
-	if anim_name == 'crouch':
-		enter_state('CROUCHING', 'CROUCH')
