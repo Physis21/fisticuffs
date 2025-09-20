@@ -16,6 +16,7 @@ func _ready():
 	add_state('AIR_RISING')
 	add_state('AIR_FALLING')
 	add_state('AIR_FASTFALL')
+	add_state('WALL_CLING')
 	add_state('LANDING')
 	add_state('GROUND_ATTACK')
 	add_state('AIR_ATTACK')
@@ -338,6 +339,8 @@ func enter_state(new_state, old_state):
 			parent.play_animation('5JDown')
 		states.AIR_FASTFALL:
 			parent.play_animation('fastfall')
+		states.WALL_CLING:
+			parent.play_animation('wallCling')
 		states.LANDING:
 			parent.play_animation('jSquat')
 		states.CROUCH:
@@ -369,7 +372,7 @@ func can_grounded_attack():
 		return true
 
 func can_air_attack():
-	if state_includes([states.AIR, states.AIR_RISING, states.AIR_FALLING, states.AIR_FASTFALL]):
+	if state_includes([states.AIR, states.AIR_RISING, states.AIR_FALLING, states.AIR_FASTFALL, states.WALL_CLING]):
 		return true
 	
 func AIRMOVEMENT():

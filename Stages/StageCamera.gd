@@ -1,6 +1,6 @@
 extends Camera2D
 
-@onready var p1 = get_parent().get_node("JOHN")
+@onready var p1 = get_tree().get_first_node_in_group("Players")
 
 func _ready():
 	pass

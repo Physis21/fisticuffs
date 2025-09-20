@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://xpa8xrbb1pkb"]
+[gd_scene load_steps=26 format=3 uid="uid://xpa8xrbb1pkb"]
 
 [ext_resource type="Script" path="res://Characters/John/StateMachineJohn.gd" id="1_lswjr"]
 [ext_resource type="Script" path="res://Characters/John/John.gd" id="1_x5q8j"]
@@ -528,6 +528,34 @@ tracks/1/keys = {
 "values": [0, 1, 2, 3, 4, 5]
 }
 
+[sub_resource type="Animation" id="Animation_b535k"]
+resource_name = "wallCling"
+step = 1.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"wallCling"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8wi18"]
 _data = {
 "5JDown": SubResource("Animation_yb3rw"),
@@ -547,7 +575,8 @@ _data = {
 "jSquat": SubResource("Animation_bjfcs"),
 "s2A": SubResource("Animation_53gy6"),
 "s5A": SubResource("Animation_n24e5"),
-"s8A": SubResource("Animation_dgyrd")
+"s8A": SubResource("Animation_dgyrd"),
+"wallCling": SubResource("Animation_b535k")
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hy7yn"]
@@ -592,6 +621,10 @@ target_position = Vector2(0, 30)
 collision_mask = 6
 hit_from_inside = true
 collide_with_areas = true
+
+[node name="WallL" type="RayCast2D" parent="Raycasts"]
+
+[node name="WallR" type="RayCast2D" parent="Raycasts"]
 
 [node name="Frames" type="Label" parent="."]
 offset_left = -20.0

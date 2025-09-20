@@ -12,8 +12,8 @@ var dir = 'right'  # direction
 @export var weight = 100
 
 # Knockback
-var hdelay
-var vdelay
+var hdecay
+var vdecay
 var knockback
 var hitstun
 var connected: bool
@@ -34,6 +34,8 @@ var selfState
 # Onready Variables
 @onready var GroundL = $Raycasts/GroundL
 @onready var GroundR = $Raycasts/GroundR
+@onready var WallL = $Raycasts/WallL
+@onready var WallR = $Raycasts/WallR
 @onready var states = $State
 @onready var anim = $Sprite/AnimationPlayer
 

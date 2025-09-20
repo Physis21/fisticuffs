@@ -31,16 +31,17 @@ func set_parameters(w,h,dam,dur,a,kb,t,p,hit,parent=get_parent()):
 	#connect("area_entered", self, "Hitbox_collide")
 	set_physics_process(true)
 	pass
-
+	
 #func Hitbox_collide(body):
 	#if !(body in player_list):
 		#player_list.append(body)
 		#var charstate
 		#charstate = body.get_node("StateMachine")
 		#weight = body.weight
-		#body.percentage += damage
-		#knockbackVal = knockback(damage, weight, angle, knockback)
+		#body.health += damage
+		#knockbackVal = knockback(weight, angle, knockback)
 		#body.knockback = knockbackVal
+		#body.hitstun = getHitStun(damage/0.3)
 	
 func update_extents():
 	hitbox.shape.extents = Vector2(width, height)

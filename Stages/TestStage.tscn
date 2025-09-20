@@ -52,5 +52,5 @@ editor_draw_limits = true
 editor_draw_drag_margin = true
 script = ExtResource("2_ysrxa")
 
-[node name="JOHN" parent="." instance=ExtResource("2_ea7ob")]
+[node name="JOHN" parent="." groups=["Players"] instance=ExtResource("2_ea7ob")]
 position = Vector2(338, 679)
