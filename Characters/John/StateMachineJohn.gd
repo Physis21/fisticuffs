@@ -20,7 +20,9 @@ func _ready():
 	add_state('AIR_FALLING')
 	add_state('AIR_FASTFALL')
 	add_state('WALL_CLING')
-	add_state('WALL_SQUAT')
+	add_state('WALL_JUMP_SQUAT')
+	add_state('WALL_SHORT_HOP')
+	add_state('WALL_FULL_HOP')
 	# attack states
 	add_state('GROUND_ATTACK')
 	add_state('AIR_ATTACK')
@@ -246,15 +248,41 @@ func get_transition(delta):
 			if parent.frame == 100 or Input.is_action_pressed("down_%s" % id):  # after a while, stop wall cling
 				return states.AIR_FALLING
 			if Input.is_action_pressed("jump_%s" % id):
-				print("jump pressed on wallcling")
-				parent.velocity.y = -parent.JUMPFORCE  # same strength as short hop
-				if parent.previous_mov_input == 'right':
-					parent.velocity.x += parent.MAXAIRSPEED
-				elif parent.previous_mov_input == 'left':
-					parent.velocity.x -= parent.MAXAIRSPEED
 				parent._frame()
-				parent.walljumped = true
-				return states.AIR_RISING
+				return states.WALL_JUMP_SQUAT
+		states.WALL_JUMP_SQUAT:
+			if parent.previous_mov_input == 'neutral':
+				if direction == 'right':
+					parent.previous_mov_input = 'right'
+				elif direction == 'left':
+					parent.previous_mov_input = 'left'
+			if parent.frame == parent.jump_squat:
+				if not Input.is_action_pressed("jump_%s" % id):
+					#parent.velocity.x = lerpf(parent.velocity.x, 0.0, 0.8)  # slow towards 0 at 8%
+					parent._frame()
+					return states.WALL_SHORT_HOP
+				else:
+					#parent.velocity.x = lerpf(parent.velocity.x, 0.0, 0.08)
+					parent._frame()
+					return states.WALL_FULL_HOP
+		states.WALL_SHORT_HOP:
+			parent.velocity.y = -parent.JUMPFORCE  # same strength as short hop
+			if parent.previous_mov_input == 'right':
+				parent.velocity.x += parent.MAXAIRSPEED
+			elif parent.previous_mov_input == 'left':
+				parent.velocity.x -= parent.MAXAIRSPEED
+			parent._frame()
+			parent.walljumped = true
+			return states.AIR_RISING
+		states.WALL_FULL_HOP:
+			parent.velocity.y = -parent.MAXJUMPFORCE  # same strength as short hop
+			if parent.previous_mov_input == 'right':
+				parent.velocity.x += parent.MAXAIRSPEED
+			elif parent.previous_mov_input == 'left':
+				parent.velocity.x -= parent.MAXAIRSPEED
+			parent._frame()
+			parent.walljumped = true
+			return states.AIR_RISING
 		states.GROUND_ATTACK:
 			if Input.is_action_pressed("up_%s" % id):
 				parent._frame()
