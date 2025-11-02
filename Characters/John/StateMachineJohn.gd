@@ -361,6 +361,7 @@ func enter_state(new_state, old_state):
 			parent.play_animation('5W')
 		states.INIT_DASH:
 			parent.play_animation('5Run')
+			parent.play_effect('DashDust')
 		states.RUN:
 			parent.play_animation('6Run')
 		states.JUMP_SQUAT:

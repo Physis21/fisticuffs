@@ -39,6 +39,8 @@ var selfState
 @onready var WallR = $Raycasts/WallR
 @onready var states = $State
 @onready var anim = $Sprite/AnimationPlayer
+@onready var effectAnim = $Effects/AnimationPlayer
+@onready var effectSprites = get_tree().get_nodes_in_group('Effects')
 
 # Preload collision shapes
 var standing_cshape = preload("res://Characters/John/cshapes/standing.tres")
@@ -88,6 +90,9 @@ func _frame():
 	
 func play_animation(animation_name):
 	anim.play(animation_name)
+	
+func play_effect(effect_name):
+	effectAnim.play(effect_name)
 
 # called when the node enters the scene_tree for the first time
 func _ready():
