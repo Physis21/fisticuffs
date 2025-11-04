@@ -1,0 +1,47 @@
+[gd_scene load_steps=6 format=3 uid="uid://oeqa0r2lh8wn"]
+
+[ext_resource type="Texture2D" uid="uid://bh3s2fki88t5g" path="res://Menu/MainMenu/NightLab.JPG" id="1_sij70"]
+
+[sub_resource type="SystemFont" id="SystemFont_sij70"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_7mpft"]
+font = SubResource("SystemFont_sij70")
+font_size = 44
+
+[sub_resource type="SystemFont" id="SystemFont_gxqt3"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_g1ub3"]
+font = SubResource("SystemFont_gxqt3")
+font_size = 26
+
+[node name="MainMenu" type="Node2D"]
+
+[node name="NightLab" type="Sprite2D" parent="."]
+position = Vector2(589, 373.00003)
+rotation = 1.5707964
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("1_sij70")
+
+[node name="GameName" type="Label" parent="."]
+offset_left = 722.0
+offset_top = 420.0
+offset_right = 1009.0
+offset_bottom = 486.0
+text = "Fisticuffs v1.0"
+label_settings = SubResource("LabelSettings_7mpft")
+
+[node name="Credits" type="Label" parent="."]
+offset_left = 1009.0
+offset_top = 802.0
+offset_right = 1112.0
+offset_bottom = 838.0
+text = "By MPhysis"
+label_settings = SubResource("LabelSettings_g1ub3")
+
+[node name="PlayButton" type="Button" parent="."]
+offset_left = 132.0
+offset_top = 217.0
+offset_right = 252.0
+offset_bottom = 248.0
+text = "Play test stage"
+icon_alignment = 2

@@ -1,0 +1,147 @@
+[gd_scene load_steps=15 format=3 uid="uid://c205r5ewmcw4a"]
+
+[ext_resource type="Script" uid="uid://bi15oamkwwdc6" path="res://Effects/dash_dust/DashDust.gd" id="1_pyh64"]
+[ext_resource type="Texture2D" uid="uid://bissgmy4u4wxq" path="res://Effects/dash_dust/frame0000.png" id="2_n8lbq"]
+[ext_resource type="Texture2D" uid="uid://uy3h2ab6iicb" path="res://Effects/dash_dust/frame0001.png" id="3_4guwy"]
+[ext_resource type="Texture2D" uid="uid://e0k11kshf75p" path="res://Effects/dash_dust/frame0002.png" id="4_kldv2"]
+[ext_resource type="Texture2D" uid="uid://dyghlhh10ospv" path="res://Effects/dash_dust/frame0003.png" id="5_hkou2"]
+[ext_resource type="Texture2D" uid="uid://oayxwirp7lfq" path="res://Effects/dash_dust/frame0004.png" id="6_joerj"]
+[ext_resource type="Texture2D" uid="uid://cx5pxtte7ih7j" path="res://Effects/dash_dust/frame0005.png" id="7_pegnu"]
+[ext_resource type="Texture2D" uid="uid://dwknxjsi5q03p" path="res://Effects/dash_dust/frame0006.png" id="8_3582j"]
+[ext_resource type="Texture2D" uid="uid://b1nxi2mshy54g" path="res://Effects/dash_dust/frame0007.png" id="9_j707h"]
+[ext_resource type="Texture2D" uid="uid://cnqvcnrf7l000" path="res://Effects/dash_dust/frame0008.png" id="10_2nmsy"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_k0hbf"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_n8lbq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_4guwy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_kldv2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_hkou2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_joerj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_pegnu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_3582j")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_j707h")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_2nmsy")
+}],
+"loop": true,
+"name": &"default",
+"speed": 15.0
+}]
+
+[sub_resource type="Animation" id="Animation_7e55u"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:sprite_frames")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [SubResource("SpriteFrames_k0hbf")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"default"]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_tvaky"]
+resource_name = "default"
+length = 0.46666837
+step = 0.016666668
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:sprite_frames")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [SubResource("SpriteFrames_k0hbf")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"default"]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ld2ay"]
+_data = {
+&"RESET": SubResource("Animation_7e55u"),
+&"default": SubResource("Animation_tvaky")
+}
+
+[node name="DashDust" type="Sprite2D"]
+script = ExtResource("1_pyh64")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.7, 0.7)
+sprite_frames = SubResource("SpriteFrames_k0hbf")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_ld2ay")
+}
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

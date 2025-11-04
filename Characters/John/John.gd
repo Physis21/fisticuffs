@@ -32,6 +32,10 @@ var previous_mov_input : String = 'neutral'
 @export var hitbox: PackedScene
 var selfState
 
+# Effects
+@export var DashDust: PackedScene
+@export var LandingRipple: PackedScene
+
 # Onready Variables
 @onready var GroundL = $Raycasts/GroundL
 @onready var GroundR = $Raycasts/GroundR
@@ -39,8 +43,8 @@ var selfState
 @onready var WallR = $Raycasts/WallR
 @onready var states = $State
 @onready var anim = $Sprite/AnimationPlayer
-@onready var effectAnim = $Effects/AnimationPlayer
-@onready var effectSprites = get_tree().get_nodes_in_group('Effects')
+@onready var effectMarkers = get_tree().get_nodes_in_group("EffectMarkers")
+var stageScene = null  # initialized in _ready()
 
 # Preload collision shapes
 var standing_cshape = preload("res://Characters/John/cshapes/standing.tres")
@@ -59,6 +63,7 @@ const FALLSPEED : int = 60 # 60 * 2
 const FALLINGSPEED : int = 800 # 900 * 2
 const MAXFALLSPEED : int = 800 # 900 * 2
 const TRACTION : int = 400 * 2
+var effectMarkerPosX : Dictionary = {}
 
 func create_hitbox(width, height, damage, duration, angle, knockback, type, points, hitlag=1):
 	var hitbox_instance = hitbox.instantiate()
@@ -75,7 +80,7 @@ func updateframes(delta):
 	frame += 1
 
 func turn(direction):
-	# flipped compared to tutorial because his fox faces left
+	# character faces right by default
 	var flip = true
 	if direction == 'right':  # face right
 		dir = 'right'
@@ -84,6 +89,10 @@ func turn(direction):
 		dir = 'left'
 		flip = true		
 	$Sprite.set_flip_h(flip)
+	for em in effectMarkers:
+		em.position.x = effectMarkerPosX[em.name] * ((-int(flip) * 2) + 1)
+		
+		
 
 func _frame():
 	frame = 0
@@ -91,12 +100,25 @@ func _frame():
 func play_animation(animation_name):
 	anim.play(animation_name)
 	
-func play_effect(effect_name):
-	effectAnim.play(effect_name)
+func play_dash_dust():
+	var DashDustInst = DashDust.instantiate()
+	DashDustInst.turn(self.dir)
+	DashDustInst.global_position = $EffectMarkers/DashDustMarker.global_position
+	stageScene.add_child(DashDustInst)
+	
+func play_landing_ripple():
+	var LandingRippleInst = LandingRipple.instantiate()
+	LandingRippleInst.turn(self.dir)
+	LandingRippleInst.global_position = $EffectMarkers/LandingRippleMarker.global_position
+	stageScene.add_child(LandingRippleInst)
 
 # called when the node enters the scene_tree for the first time
 func _ready():
+	for em in effectMarkers:
+		effectMarkerPosX[em.name] = em.position.x
+	stageScene = get_tree().current_scene
 	turn(dir)
+	print(effectMarkerPosX)
 	pass
 
 func _physics_process(delta):

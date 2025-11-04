@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://l0seyh855irn"]
 
-[ext_resource type="Script" path="res://Hitbox/hitbox.gd" id="1_udnj4"]
+[ext_resource type="Script" uid="uid://bcbpnkrwa168r" path="res://Hitbox/hitbox.gd" id="1_udnj4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ealqb"]
 
@@ -9,3 +9,4 @@ script = ExtResource("1_udnj4")
 
 [node name="HitboxShape" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_ealqb")
+debug_color = Color(0.99999326, 0, 0.10991942, 0.41960785)

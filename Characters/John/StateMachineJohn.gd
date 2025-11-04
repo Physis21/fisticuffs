@@ -361,7 +361,7 @@ func enter_state(new_state, old_state):
 			parent.play_animation('5W')
 		states.INIT_DASH:
 			parent.play_animation('5Run')
-			parent.play_effect('DashDust')
+			parent.play_dash_dust()
 		states.RUN:
 			parent.play_animation('6Run')
 		states.JUMP_SQUAT:
@@ -382,6 +382,7 @@ func enter_state(new_state, old_state):
 			parent.play_animation('wallCling')
 		states.LANDING:
 			parent.play_animation('jSquat')
+			parent.play_landing_ripple()
 		states.CROUCH:
 			parent.play_animation('crouch')
 		states.CROUCHING:

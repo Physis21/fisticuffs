@@ -1,0 +1,147 @@
+[gd_scene load_steps=15 format=3 uid="uid://mbl624x0tqrh"]
+
+[ext_resource type="Script" uid="uid://bqwgqnldtktgg" path="res://Effects/landing_effect/LandingRipple.gd" id="1_dbvvl"]
+[ext_resource type="Texture2D" uid="uid://br0xrr2jovl8r" path="res://Effects/landing_effect/frame0000.png" id="1_onbdd"]
+[ext_resource type="Texture2D" uid="uid://dvxvy8wrfloft" path="res://Effects/landing_effect/frame0001.png" id="2_dbvvl"]
+[ext_resource type="Texture2D" uid="uid://b5i1babro3820" path="res://Effects/landing_effect/frame0002.png" id="3_bkfhu"]
+[ext_resource type="Texture2D" uid="uid://ceq57vna6bga4" path="res://Effects/landing_effect/frame0003.png" id="4_h7eun"]
+[ext_resource type="Texture2D" uid="uid://bnicu4s6pmvx6" path="res://Effects/landing_effect/frame0004.png" id="5_j8ayq"]
+[ext_resource type="Texture2D" uid="uid://dbbfu7ffib03d" path="res://Effects/landing_effect/frame0005.png" id="6_d6so6"]
+[ext_resource type="Texture2D" uid="uid://t0dq1jb72bye" path="res://Effects/landing_effect/frame0006.png" id="7_41ahu"]
+[ext_resource type="Texture2D" uid="uid://dnktc33fgq2pa" path="res://Effects/landing_effect/frame0007.png" id="8_1hr6g"]
+[ext_resource type="Texture2D" uid="uid://c30gg70sdbq0y" path="res://Effects/landing_effect/frame0008.png" id="9_8np4c"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_c1i0m"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_onbdd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_dbvvl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_bkfhu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_h7eun")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_j8ayq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_d6so6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_41ahu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_1hr6g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_8np4c")
+}],
+"loop": true,
+"name": &"default",
+"speed": 15.0
+}]
+
+[sub_resource type="Animation" id="Animation_dbvvl"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:sprite_frames")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [SubResource("SpriteFrames_c1i0m")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"default"]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_onbdd"]
+resource_name = "default"
+length = 0.30000168
+step = 0.016666668
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:sprite_frames")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [SubResource("SpriteFrames_c1i0m")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"default"]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.032581232, 0.06776896, 0.10121903, 0.13249701, 0.16855358, 0.20243806, 0.23371604, 0.26673168),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bkfhu"]
+_data = {
+&"RESET": SubResource("Animation_dbvvl"),
+&"default": SubResource("Animation_onbdd")
+}
+
+[node name="LandingRipple" type="Sprite2D"]
+script = ExtResource("1_dbvvl")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+scale = Vector2(1, 0.5)
+sprite_frames = SubResource("SpriteFrames_c1i0m")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_bkfhu")
+}
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
