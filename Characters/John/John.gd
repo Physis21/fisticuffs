@@ -12,6 +12,7 @@ var dir = 'right'  # direction
 @export var health = 1000
 @export var stocks = 3
 @export var weight = 100
+var freezeframes = 0
 
 # Knockback
 var hdecay
@@ -33,6 +34,12 @@ var previous_mov_input : String = 'neutral'
 # Hitboxes
 @export var hitbox: PackedScene
 var selfState
+
+# Temporary variables
+var hit_pause = 0
+var hit_pause_dur = 0
+var temp_pos = Vector2(0,0)
+var temp_vel = Vector2(0,0)
 
 # Effects
 @export var DashDust: PackedScene
@@ -84,8 +91,11 @@ func create_hitbox(width, height, damage, duration, angle, angle_flipper, bk, ks
 			)
 	return hitbox_instance
 	
-func updateframes(_delta):
-	frame += 1
+func updateframes(delta):
+	frame += floor(delta * 60) # to be unaffected by Engine.timescale (instead of +1)
+	if freezeframes > 0:
+		freezeframes -= floor(delta * 60) 
+	freezeframes = clamp(freezeframes, 0, freezeframes)
 
 func turn(direction):
 	# character faces right by default
@@ -128,31 +138,44 @@ func _ready():
 	turn(dir)
 	pass
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	$Frames.text = str(frame)
 	selfState = states.text
+	
+func apply_hit_pause(delta):
+	if hit_pause < hit_pause_dur:
+		self.position = temp_pos
+		hit_pause += floor((1 * delta) * 60)
+	else:
+		if temp_vel != Vector2(0,0):
+			self.velocity.x = temp_vel.x
+			self.velocity.y = temp_vel.y
+			temp_vel = Vector2(0,0)
+		hit_pause_dur = 0
+		hit_pause = 0
+			
 	
 # Attacks
 func s5A():
 	if frame == 9:
-		create_hitbox(40, 20, 8, 9, 0, 0, 200, 1, 'normal', Vector2(64, -25), 1)
+		create_hitbox(40, 20, 8, 9, 0, 0, 160, 1, 'normal', Vector2(64, -25), 1)
 	if frame >= 26:
 		return true
 		
 func s2A():
 	if frame == 6:
-		create_hitbox(40, 20, 8, 9, 0, 0, 100, 1, 'normal', Vector2(64, -10), 1)
+		create_hitbox(40, 20, 8, 9, 0, 0, 75, 1, 'normal', Vector2(64, -10), 1)
 	if frame >= 16:
 		return true
 		
 func s8A():
 	if frame == 10:
-		create_hitbox(20, 40, 8, 9, 90, 0, 100, 1, 'normal', Vector2(40, -70), 1)
+		create_hitbox(20, 40, 8, 9, 75, 0, 180, 1, 'normal', Vector2(40, -70), 1)
 	if frame >= 27:
 		return true
 
 func j6A():
 	if frame == 18:
-		create_hitbox(45, 30, 8, 9, 0, 0, 100, 1, 'normal', Vector2(60, -10), 1)
+		create_hitbox(45, 30, 8, 9, -20, 0, 160, 1, 'normal', Vector2(60, -10), 1)
 	if frame >= 37:
 		return true

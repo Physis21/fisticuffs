@@ -9,7 +9,7 @@ For now, keep 1200 width and 900 height, for a 4:3 ratio like SF3 and MBAACC
 - frame function is _frame, to not be redundant with frame var
 
 ## Progression
-- Part 4, 21:00
+- Part 12, 05:08 (Hitlag)
 - Reason was Raycasts need to be "Hit from inside" = On, and I forgot to change John's collision layer mask
 - Small changes to do in "Revamping your Plat... Godot 4.0", which were the reason for the bugs
 - replace clamp and lerp by clampf and lerpf

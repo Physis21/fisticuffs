@@ -17,6 +17,7 @@ func _ready():
 	add_state('CROUCHING')
 	add_state('LANDING')
 	# hitstun states
+	add_state('HITFREEZE')
 	add_state('HITSTUN')
 	# airborne states
 	add_state('AIR')
@@ -41,8 +42,9 @@ func _ready():
 func state_logic(delta):
 	parent.updateframes(delta)
 	parent._physics_process(delta)
+	parent.apply_hit_pause(delta)
 	
-func get_transition(delta):
+func get_transition(_delta):
 	parent.move_and_slide()
 	parent.states.text = str(state)
 	var direction = get_rightleft(id)
@@ -244,7 +246,7 @@ func get_transition(delta):
 					parent._frame()
 					parent.lag_frames = 0
 					return states.STAND
-				parent.lag_frames = 0
+				#parent.lag_frames = 0
 		states.WALL_CLING:
 			if parent.frame == 100 or Input.is_action_pressed("down_%s" % id):  # after a while, stop wall cling
 				return states.AIR_FALLING
@@ -284,6 +286,15 @@ func get_transition(delta):
 			parent._frame()
 			parent.walljumped = true
 			return states.AIR_RISING
+		states.HITFREEZE:
+			if parent.freezeframes  == 0:
+				parent.frame()
+				parent.velocity.x = kbx
+				parent.velocity.y = kby
+				parent.hdecay = hd
+				parent.vdecay = vd
+				return states.HITSTUN
+			parent.position = pos
 		states.HITSTUN:
 			#if parent.knockback >= 3:
 				#var collision : KinematicCollision2D = parent.move_and_collide(parent.velocity * delta)
@@ -298,15 +309,15 @@ func get_transition(delta):
 					#parent.hitstun = round(parent.hitstun * 0.8)
 			if parent.velocity.y < 0:
 				parent.velocity.y += parent.vdecay * 0.5 * Engine.time_scale
-				parent.velocity.y = clamp(parent.velocity.y, parent.velocity.y, 0)
+				parent.velocity.y = clampf(parent.velocity.y, parent.velocity.y, 0)
 			if parent.velocity.x < 0:
-				parent.velocity.x += (parent.hdecay) * 0.4 * Engine.time_scale
-				parent.velocity.x = clamp(parent.velocity.x, parent.velocity.x, 0)
+				parent.velocity.x -= (parent.hdecay) * 0.4 * Engine.time_scale
+				parent.velocity.x = clampf(parent.velocity.x, parent.velocity.x, 0)
 			if parent.velocity.x > 0:
 				parent.velocity.x -= (parent.hdecay) * 0.4 * Engine.time_scale
-				parent.velocity.x = clamp(parent.velocity.x, 0, parent.velocity.x)
-			#print("parent.velocity.x = %s" % parent.velocity.x)
-			if parent.frame == parent.hitstun:
+				parent.velocity.x = clampf(parent.velocity.x, 0, parent.velocity.x)
+			print("parent.velocity.x = %s" % parent.velocity.x)
+			if parent.frame >= parent.hitstun:
 				if parent.knockback >= 24:
 					parent._frame()
 					return states.AIR
@@ -387,7 +398,7 @@ func get_transition(delta):
 				return states.AIR
 				
 
-func enter_state(new_state, old_state):
+func enter_state(new_state, _old_state):
 	parent.states.text = str(new_state)
 	match new_state:
 		states.STAND:
@@ -422,6 +433,8 @@ func enter_state(new_state, old_state):
 			parent.play_animation('crouch')
 		states.CROUCHING:
 			parent.play_animation('crouching')
+		states.HITFREEZE:
+			parent.play_animation('j8Hit')
 		states.HITSTUN:
 			parent.play_animation('j8Hit')
 		states.GROUND_ATTACK:
@@ -435,7 +448,7 @@ func enter_state(new_state, old_state):
 		states.J6A:
 			parent.play_animation('j6A')
 	
-func exit_state(old_state, new_state):
+func exit_state(_old_state, _new_state):
 	pass
 	
 func state_includes(state_array):
@@ -495,7 +508,7 @@ func AIRMOVEMENT():
 func Landing():
 	if state_includes([states.AIR, states.AIR_RISING, states.AIR_FALLING, states.AIR_FASTFALL, states.J6A]):
 		if (parent.GroundL.is_colliding() or parent.GroundR.is_colliding()) and parent.velocity.y >= 0:
-			var collider = parent.GroundL.get_collider()
+			#var collider = parent.GroundL.get_collider()
 			parent._frame()
 			if parent.velocity.y >= 0:
 				parent.velocity.y = 0
@@ -504,7 +517,7 @@ func Landing():
 			parent.previous_mov_input = 'neutral'
 			return true
 		elif (parent.GroundR.is_colliding()) and parent.velocity.y >= 0:
-			var collider2 = parent.GroundR.get_collider()
+			#var collider2 = parent.GroundR.get_collider()
 			parent._frame()
 			if parent.velocity.y >= 0:
 				parent.velocity.y = 0
@@ -521,7 +534,7 @@ func Falling():
 func WallCling(direction):
 	if not parent.GroundL.is_colliding() and not parent.GroundR.is_colliding():
 		if parent.WallL.is_colliding() and direction == 'right' and parent.walljumped == false:
-			var collider = parent.WallL.get_collider()
+			#var collider = parent.WallL.get_collider()
 			parent._frame()
 			parent.velocity.y = 0
 			parent.velocity.x = 0
@@ -530,7 +543,7 @@ func WallCling(direction):
 			parent.turn('right')
 			return true
 		if parent.WallR.is_colliding() and direction == 'left' and parent.walljumped == false:
-			var collider2 = parent.WallR.get_collider()
+			#var collider2 = parent.WallR.get_collider()
 			parent._frame()
 			parent.velocity.y = 0
 			parent.velocity.x = 0
@@ -538,6 +551,21 @@ func WallCling(direction):
 			parent.previous_mov_input = 'left'
 			parent.turn('left')
 			return true
+
+var kbx
+var kby
+var hd
+var vd
+var pos
+
+func hitfreeze(duration, knockbackVal):
+	pos = parent.position
+	parent.freezeframes = duration
+	kbx = knockbackVal[0]
+	kby = knockbackVal[1]
+	hd = knockbackVal[2]
+	vd = knockbackVal[3]
+	pass
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == '5W':
