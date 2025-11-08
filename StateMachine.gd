@@ -56,11 +56,12 @@ func get_rightleft(id): # Apply SOCD
 	else:
 		return 'neutral'
 		
-func apply_traction(traction):
+func apply_traction(traction, mod=1):
+	var applied_traction = traction * mod
 	if parent.velocity.x > 0:
-		parent.velocity.x += -traction
+		parent.velocity.x += -applied_traction
 		parent.velocity.x = clampf(parent.velocity.x, 0, parent.velocity.x)
 	if parent.velocity.x < 0:
-		parent.velocity.x += traction
+		parent.velocity.x += applied_traction
 		parent.velocity.x = clampf(parent.velocity.x, parent.velocity.x, 0)
 		

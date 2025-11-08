@@ -248,7 +248,7 @@ func get_transition(_delta):
 					return states.STAND
 				#parent.lag_frames = 0
 		states.WALL_CLING:
-			if parent.frame == 100 or Input.is_action_pressed("down_%s" % id):  # after a while, stop wall cling
+			if parent.frame == parent.wallcling_max or Input.is_action_pressed("down_%s" % id):  # after a while, stop wall cling
 				return states.AIR_FALLING
 			if Input.is_action_pressed("jump_%s" % id):
 				parent._frame()
@@ -288,7 +288,7 @@ func get_transition(_delta):
 			return states.AIR_RISING
 		states.HITFREEZE:
 			if parent.freezeframes  == 0:
-				parent.frame()
+				parent._frame()
 				parent.velocity.x = kbx
 				parent.velocity.y = kby
 				parent.hdecay = hd
@@ -316,7 +316,6 @@ func get_transition(_delta):
 			if parent.velocity.x > 0:
 				parent.velocity.x -= (parent.hdecay) * 0.4 * Engine.time_scale
 				parent.velocity.x = clampf(parent.velocity.x, 0, parent.velocity.x)
-			print("parent.velocity.x = %s" % parent.velocity.x)
 			if parent.frame >= parent.hitstun:
 				if parent.knockback >= 24:
 					parent._frame()
@@ -374,7 +373,7 @@ func get_transition(_delta):
 			if parent.frame == 0:
 				parent.s8A()
 			if parent.frame >= 1:
-				apply_traction(parent.TRACTION)
+				apply_traction(parent.TRACTION, parent.TRACTION_ATTACK_MOD)
 			if parent.s8A() == true:
 				if Input.is_action_pressed("down_%s" % id):
 					parent._frame()
@@ -532,10 +531,11 @@ func Falling():
 			return true
 			
 func WallCling(direction):
-	if not parent.GroundL.is_colliding() and not parent.GroundR.is_colliding():
+	if not parent.GroundL.is_colliding() and not parent.GroundR.is_colliding() and parent.wallcling_timer == 0:
 		if parent.WallL.is_colliding() and direction == 'right' and parent.walljumped == false:
 			#var collider = parent.WallL.get_collider()
 			parent._frame()
+			parent.wallcling_timer = parent.wallcling_cooldown
 			parent.velocity.y = 0
 			parent.velocity.x = 0
 			parent.fastfall = false
@@ -545,6 +545,7 @@ func WallCling(direction):
 		if parent.WallR.is_colliding() and direction == 'left' and parent.walljumped == false:
 			#var collider2 = parent.WallR.get_collider()
 			parent._frame()
+			parent.wallcling_timer = parent.wallcling_cooldown
 			parent.velocity.y = 0
 			parent.velocity.x = 0
 			parent.fastfall = false

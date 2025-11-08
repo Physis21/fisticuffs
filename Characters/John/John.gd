@@ -14,6 +14,11 @@ var dir = 'right'  # direction
 @export var weight = 100
 var freezeframes = 0
 
+# Buffers
+var wallcling_max = 90
+var wallcling_cooldown = 30
+var wallcling_timer = 0
+
 # Knockback
 var hdecay
 var vdecay
@@ -72,6 +77,7 @@ const FALLSPEED : int = 60 # 60 * 2
 const FALLINGSPEED : int = 800 # 900 * 2
 const MAXFALLSPEED : int = 800 # 900 * 2
 const TRACTION : int = 400 * 2
+const TRACTION_ATTACK_MOD : float = 0.
 var effectMarkerPosX : Dictionary = {}
 
 func create_hitbox(width, height, damage, duration, angle, angle_flipper, bk, ks, type, points, hitlag=1):
@@ -93,9 +99,11 @@ func create_hitbox(width, height, damage, duration, angle, angle_flipper, bk, ks
 	
 func updateframes(delta):
 	frame += floor(delta * 60) # to be unaffected by Engine.timescale (instead of +1)
+	wallcling_timer -= floor(delta * 60)
+	wallcling_timer = clampf(wallcling_timer, 0, wallcling_timer)
 	if freezeframes > 0:
 		freezeframes -= floor(delta * 60) 
-	freezeframes = clamp(freezeframes, 0, freezeframes)
+	freezeframes = clampf(freezeframes, 0, freezeframes)
 
 func turn(direction):
 	# character faces right by default

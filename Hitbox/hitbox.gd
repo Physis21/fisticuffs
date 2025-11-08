@@ -37,27 +37,34 @@ func set_parameters(w,h,dam,dur,a,af,bk,ks,t,p,hit,parent=get_parent()):
 	hitlag_modifier = hit
 	self.position = p
 	update_extents()
-	self.body_entered.connect(Hitbox_collide) # Manual connecting
+	self.body_entered.connect(hitbox_collide) # Manual connecting
 	set_physics_process(true)
 	pass
 	
-func Hitbox_collide(body):
+func hitbox_collide(body):
 	if !(body in player_list):
 		player_list.append(body)
 		var charstate
 		charstate = body.get_node("StateMachine")
 		weight = body.weight
 		body.health -= damage
-		knockbackVal = get_knockback(body.percentage, damage, weight, base_kb, kb_scaling, 1)
-		apply_angle_flipper(body)
+		knockbackVal = getKnockback(body.percentage, damage, weight, base_kb, kb_scaling, 1)
 		apply_turnaround(body)
+		charstate.state = charstate.states.HITFREEZE
+		charstate.hitfreeze(
+			getHitlag(damage, hitlag_modifier),
+			apply_angle_flipper(Vector2(body.velocity.x, body.velocity.y), body.global_position),
+		)
 		body.knockback = knockbackVal
 		body.hitstun = getHitstun(knockbackVal)
 		get_parent().connected = true
 		body._frame()
-		charstate.state = charstate.states.HITSTUN
 		#print("knockbackVal = %s" % knockbackVal)
 		
+		Globals.hitstun(getHitlag(damage, hitlag_modifier), getHitlag(damage, hitlag_modifier)/60)
+		get_parent().hit_pause_dur = duration - framez
+		get_parent().temp_pos = get_parent().position
+		get_parent().temp_vel = get_parent().velocity
 	
 func update_extents():
 	hitbox.shape.extents = Vector2(width, height)
@@ -65,14 +72,14 @@ func update_extents():
 func _ready() -> void:
 	hitbox.shape = RectangleShape2D.new()  # double check
 	set_physics_process(false)  # don't want hitbox to do anything before this func is called
-	#print("knockback = %s" % get_knockback(20, 100, 100, 100, 1, 1))
+	#print("knockback = %s" % getKnockback(20, 100, 100, 100, 1, 1))
 	pass
 
 func _physics_process(delta: float):
 	if framez < duration:
-		framez += 1
+		framez += floor(delta * 60)
 	elif framez == duration:
-		Engine.time_scale = 1
+		#Engine.time_scale = 1 # if this is enabled, multi hits will jitter timescale
 		queue_free()  # this waits for the current code to finish execution before deletion
 		return
 	if get_parent().selfState != parentState:  # check if we are still attacking
@@ -83,12 +90,16 @@ func _physics_process(delta: float):
 func getHitstun(kbVal):
 	return floor(kbVal / 10)
 
+func getHitlag(dam, hit):
+	# damage and hitlag modifier
+	return floor(floor(floor(dam / 3) + 4) * hit)
+
 # These variables are maybe not necessary
 @export var weight = 100
 @export var ratio = 1
 @export var percentage = 20 # default for stamina mode in Melee
 
-func get_knockback(p, d, w, bk, ks, r):
+func getKnockback(p, d, w, bk, ks, r):
 	percentage = p
 	damage = d
 	weight = w
@@ -122,7 +133,51 @@ func getVerticalVelocity(kbVal, a):
 	verticalVelocity = round(verticalVelocity * 100000) / 100000
 	return verticalVelocity
 
-func apply_angle_flipper(body):
+func apply_angle_flipper(body_vel: Vector2, body_position: Vector2, hdecay=0, vdecay=0):
+	var xangle
+	var angleWithDir
+	if get_parent().dir == 'right':
+		xangle = -body_position.angle_to_point(get_parent().global_position) / DEGTORAD
+		angleWithDir = angle
+	elif get_parent().dir == 'left':
+		xangle = body_position.angle_to_point(get_parent().global_position) / DEGTORAD
+		angleWithDir = (180 - angle) % 360
+	match angle_flipper:
+		0:
+			body_vel.x = (getHorizontalVelocity(knockbackVal, angleWithDir))
+			body_vel.y = (getVerticalVelocity(knockbackVal, angleWithDir))
+			hdecay = (getHorizontalDecay(angleWithDir))
+			vdecay = (getVerticalDecay(angleWithDir))
+			return ([body_vel.x, body_vel.y, hdecay, vdecay])
+		1:
+			if get_parent().dir == 'right':
+				xangle = -self.global_position.angle_to_point(body_position) / DEGTORAD
+			elif get_parent().dir == 'left':
+				xangle = self.global_position.angle_to_point(body_position) / DEGTORAD
+			body_vel.x = (getHorizontalVelocity(knockbackVal, xangle+180))
+			body_vel.y = (getVerticalVelocity(knockbackVal, -xangle))
+			hdecay = (getHorizontalDecay(xangle+180))
+			vdecay = (getVerticalDecay(xangle))
+			return ([body_vel.x, body_vel.y, hdecay, vdecay])
+			# away
+			# return angle
+		2: 
+			if get_parent().dir == 'right':
+				xangle = -body_position.angle_to_point(self.global_position) / DEGTORAD
+			elif get_parent().dir == 'left':
+				xangle = body_position.angle_to_point(self.global_position) / DEGTORAD
+			body_vel.x = (getHorizontalVelocity(knockbackVal, -xangle+180))
+			body_vel.y = (getVerticalVelocity(knockbackVal, -xangle))
+			hdecay = (getHorizontalDecay(xangle+180))
+			vdecay = (getVerticalDecay(xangle))
+			return ([body_vel.x, body_vel.y, hdecay, vdecay])
+			# away
+			# return angle
+	# 0 - sends at the exact knockback angle
+	# 1 - sends away from center of the ennemy player
+	# 2 - sends towards center of the ennemy player
+
+func apply_angle_flipper_v0(body):
 	var xangle
 	var angleWithDir
 	if get_parent().dir == 'right':
