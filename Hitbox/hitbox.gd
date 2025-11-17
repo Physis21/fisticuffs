@@ -138,10 +138,10 @@ func getVerticalVelocity(kbVal, a):
 func apply_angle_flipper(body_vel: Vector2, body_position: Vector2, hdecay=0, vdecay=0):
 	var xangle
 	var angleWithDir
-	if get_parent().dir == 'right':
+	if get_parent().dir.val == 'right':
 		xangle = -body_position.angle_to_point(get_parent().global_position) / DEGTORAD
 		angleWithDir = angle
-	elif get_parent().dir == 'left':
+	elif get_parent().dir.val == 'left':
 		xangle = body_position.angle_to_point(get_parent().global_position) / DEGTORAD
 		angleWithDir = (180 - angle) % 360
 	match angle_flipper:
@@ -152,10 +152,7 @@ func apply_angle_flipper(body_vel: Vector2, body_position: Vector2, hdecay=0, vd
 			vdecay = (getVerticalDecay(angleWithDir))
 			return ([body_vel.x, body_vel.y, hdecay, vdecay])
 		1:
-			if get_parent().dir == 'right':
-				xangle = -self.global_position.angle_to_point(body_position) / DEGTORAD
-			elif get_parent().dir == 'left':
-				xangle = self.global_position.angle_to_point(body_position) / DEGTORAD
+			xangle = -get_parent().dir.xmult * self.global_position.angle_to_point(body_position) / DEGTORAD
 			body_vel.x = (getHorizontalVelocity(knockbackVal, xangle+180))
 			body_vel.y = (getVerticalVelocity(knockbackVal, -xangle))
 			hdecay = (getHorizontalDecay(xangle+180))
@@ -164,10 +161,7 @@ func apply_angle_flipper(body_vel: Vector2, body_position: Vector2, hdecay=0, vd
 			# away
 			# return angle
 		2: 
-			if get_parent().dir == 'right':
-				xangle = -body_position.angle_to_point(self.global_position) / DEGTORAD
-			elif get_parent().dir == 'left':
-				xangle = body_position.angle_to_point(self.global_position) / DEGTORAD
+			xangle = -get_parent().dir.xmult * body_position.angle_to_point(self.global_position) / DEGTORAD
 			body_vel.x = (getHorizontalVelocity(knockbackVal, -xangle+180))
 			body_vel.y = (getVerticalVelocity(knockbackVal, -xangle))
 			hdecay = (getHorizontalDecay(xangle+180))
@@ -182,10 +176,10 @@ func apply_angle_flipper(body_vel: Vector2, body_position: Vector2, hdecay=0, vd
 func apply_angle_flipper_v0(body):
 	var xangle
 	var angleWithDir
-	if get_parent().dir == 'right':
+	if get_parent().dir.val == 'right':
 		xangle = -body.global_position.angle_to_point(get_parent().global_position) / DEGTORAD
 		angleWithDir = angle
-	elif get_parent().dir == 'left':
+	elif get_parent().dir.val == 'left':
 		xangle = body.global_position.angle_to_point(get_parent().global_position) / DEGTORAD
 		angleWithDir = (180 - angle) % 360
 	match angle_flipper:
@@ -195,9 +189,9 @@ func apply_angle_flipper_v0(body):
 			body.hdecay = (getHorizontalDecay(angleWithDir))
 			body.vdecay = (getVerticalDecay(angleWithDir))
 		1:
-			if get_parent().dir == 'right':
+			if get_parent().dir.val == 'right':
 				xangle = -self.global_position.angle_to_point(body.get_parent().global_position) / DEGTORAD
-			elif get_parent().dir == 'left':
+			elif get_parent().dir.val == 'left':
 				xangle = self.global_position.angle_to_point(body.get_parent().global_position) / DEGTORAD
 			body.velocity.x = (getHorizontalVelocity(knockbackVal, xangle+180))
 			body.velocity.y = (getVerticalVelocity(knockbackVal, -xangle))
@@ -206,9 +200,9 @@ func apply_angle_flipper_v0(body):
 			# away
 			# return angle
 		2: 
-			if get_parent().dir == 'right':
+			if get_parent().dir.val == 'right':
 				xangle = -body.get_parent().global_position.angle_to_point(self.global_position) / DEGTORAD
-			elif get_parent().dir == 'left':
+			elif get_parent().dir.val == 'left':
 				xangle = body.get_parent().global_position.angle_to_point(self.global_position) / DEGTORAD
 			body.velocity.x = (getHorizontalVelocity(knockbackVal, -xangle+180))
 			body.velocity.y = (getVerticalVelocity(knockbackVal, -xangle))
@@ -226,8 +220,8 @@ func apply_turnaround(body):
 	elif body.velocity.x < 0:
 		body.turn('right')
 	else: # 0
-		if get_parent().dir == 'right':
+		if get_parent().dir.val == 'right':
 			body.turn('left')
-		elif get_parent().dir == 'left':
+		elif get_parent().dir.val == 'left':
 			body.turn('right')
 			

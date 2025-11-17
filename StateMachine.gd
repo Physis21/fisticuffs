@@ -45,16 +45,6 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
-	
-func get_rightleft(id): # Apply SOCD
-	if Input.is_action_pressed("right_%s" % id) and Input.is_action_pressed("left_%s" % id):
-		return 'neutral'
-	elif Input.is_action_pressed("right_%s" % id):
-		return 'right'
-	elif Input.is_action_pressed("left_%s" % id):
-		return 'left'
-	else:
-		return 'neutral'
 		
 func apply_traction(traction, mod=1):
 	var applied_traction = traction * mod

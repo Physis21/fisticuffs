@@ -4,7 +4,7 @@ extends CharacterBody2D
 
 # Global variables
 var frame = 0
-var dir = 'right'  # direction
+var dir = Movement.CharDirection.new()  # direction
 
 # Attributes
 @export var id : int
@@ -34,7 +34,7 @@ var fastfall : bool = false
 var jump_squat : int = 5
 var lag_frames:  int = 0
 var landing_frames : int = 3
-var previous_mov_input : String = 'neutral'
+var previous_mov_input = Movement.InptDirection.new()
 
 # Hitboxes
 @export var hitbox: PackedScene
@@ -86,18 +86,12 @@ var effectMarkerPosX : Dictionary = {}
 func create_hitbox(width, height, damage, duration, angle, angle_flipper, bk, ks, type, points, hitlag=1):
 	var hitbox_instance = hitbox.instantiate()
 	self.add_child(hitbox_instance)
+	var flip_x_points = Vector2(dir.xmult * points.x, points.y)
 	# rotate the points
-	if dir == 'right':
-		hitbox_instance.set_parameters(
-			width, height, damage, duration, angle, angle_flipper,
-			bk, ks, type, points, hitlag
-			)
-	else:
-		var flip_x_points = Vector2(-points.x, points.y)
-		hitbox_instance.set_parameters(
-			width, height, damage, duration, angle, angle_flipper,
-			bk, ks, type, flip_x_points, hitlag
-			)
+	hitbox_instance.set_parameters(
+		width, height, damage, duration, angle, angle_flipper,
+		bk, ks, type, flip_x_points, hitlag
+		)
 	return hitbox_instance
 	
 func updateframes(delta):
@@ -109,18 +103,13 @@ func updateframes(delta):
 		freezeframes -= floor(delta * 60) 
 	freezeframes = clampf(freezeframes, 0, freezeframes)
 
-func turn(direction):
+func turn(dirVal : String):
 	# character faces right by default
 	var flip = true
-	if direction == 'right':  # face right
-		dir = 'right'
-		flip = false
-	elif direction == 'left':  # face left
-		dir = 'left'
-		flip = true		
-	$Sprite.set_flip_h(flip)
+	dir.set_val(dirVal)
+	$Sprite.set_flip_h(dir.flip)
 	for em in effectMarkers:
-		em.position.x = effectMarkerPosX[em.name] * ((-int(flip) * 2) + 1)
+		em.position.x = effectMarkerPosX[em.name] * dir.xmult
 		
 		
 
@@ -129,25 +118,27 @@ func _frame():
 	
 func play_animation(animation_name):
 	anim.play(animation_name)
-	
-func play_dash_dust():
-	var DashDustInst = DashDust.instantiate()
-	DashDustInst.turn(self.dir)
-	DashDustInst.global_position = $EffectMarkers/DashDustMarker.global_position
-	stageScene.add_child(DashDustInst)
-	
-func play_landing_ripple():
-	var LandingRippleInst = LandingRipple.instantiate()
-	LandingRippleInst.turn(self.dir)
-	LandingRippleInst.global_position = $EffectMarkers/LandingRippleMarker.global_position
-	stageScene.add_child(LandingRippleInst)
+
+func play_effect(effect_name):
+	match effect_name:
+		'DashDust':
+			var DashDustInst = DashDust.instantiate()
+			DashDustInst.turn(self.dir.val)
+			DashDustInst.global_position = $EffectMarkers/DashDustMarker.global_position
+			stageScene.add_child(DashDustInst)
+		'LandingRipple':
+			var LandingRippleInst = LandingRipple.instantiate()
+			LandingRippleInst.turn(self.dir.val)
+			LandingRippleInst.global_position = $EffectMarkers/LandingRippleMarker.global_position
+			stageScene.add_child(LandingRippleInst)
 
 # called when the node enters the scene_tree for the first time
 func _ready():
+	previous_mov_input.set_val('neutral')
 	for em in effectMarkers:
 		effectMarkerPosX[em.name] = em.position.x
 	stageScene = get_tree().current_scene
-	turn(dir)
+	turn('right')
 	pass
 
 func _physics_process(_delta):

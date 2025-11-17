@@ -1448,13 +1448,13 @@ collide_with_areas = true
 
 [node name="WallL" type="RayCast2D" parent="Raycasts"]
 position = Vector2(-10, 0)
-target_position = Vector2(-40, 0)
+target_position = Vector2(-16, 0)
 collision_mask = 2
 hit_from_inside = true
 
 [node name="WallR" type="RayCast2D" parent="Raycasts"]
 position = Vector2(10, 0)
-target_position = Vector2(40, 0)
+target_position = Vector2(16, 0)
 collision_mask = 2
 hit_from_inside = true
 
