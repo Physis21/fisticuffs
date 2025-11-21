@@ -1,8 +1,9 @@
-[gd_scene load_steps=33 format=3 uid="uid://xpa8xrbb1pkb"]
+[gd_scene load_steps=34 format=3 uid="uid://xpa8xrbb1pkb"]
 
 [ext_resource type="Script" uid="uid://cflj6fxo0lf1" path="res://Characters/John/StateMachineJohn.gd" id="1_lswjr"]
 [ext_resource type="Script" uid="uid://cfe13ccuw4fqv" path="res://Characters/John/John.gd" id="1_x5q8j"]
 [ext_resource type="PackedScene" uid="uid://l0seyh855irn" path="res://Hitbox/hitbox.tscn" id="2_8jr0u"]
+[ext_resource type="PackedScene" uid="uid://vxm5horksa0s" path="res://CharCollisionBox/pushbox.tscn" id="2_jgt4k"]
 [ext_resource type="SpriteFrames" uid="uid://cfp0c81aanglg" path="res://Characters/John/JohnSprites.tres" id="3_18oiq"]
 [ext_resource type="PackedScene" uid="uid://c205r5ewmcw4a" path="res://Effects/dash_dust/DashDust.tscn" id="3_qb6f3"]
 [ext_resource type="PackedScene" uid="uid://mbl624x0tqrh" path="res://Effects/landing_effect/LandingRipple.tscn" id="4_l2giy"]
@@ -1400,6 +1401,7 @@ collision_mask = 6
 platform_floor_layers = 4294967044
 platform_wall_layers = 2
 script = ExtResource("1_x5q8j")
+pushbox = ExtResource("2_jgt4k")
 hitbox = ExtResource("2_8jr0u")
 DashDust = ExtResource("3_qb6f3")
 LandingRipple = ExtResource("4_l2giy")

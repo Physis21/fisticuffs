@@ -36,6 +36,9 @@ var lag_frames:  int = 0
 var landing_frames : int = 3
 var previous_mov_input = Movement.InptDirection.new()
 
+# Pushbox
+@export var pushbox: PackedScene
+
 # Hitboxes
 @export var hitbox: PackedScene
 var selfState
@@ -82,6 +85,15 @@ const TRACTION_ATTACK : float = 25 # acceleration
 const PUSH_FORCE = 100
 #const MIN_PUSH_FORCE = 10
 var effectMarkerPosX : Dictionary = {}
+
+func create_pushbox(width, height, points):
+	var pushbox_instance = pushbox.instantiate()
+	self.add_child(pushbox_instance)
+	var flip_x_points = Vector2(dir.xmult * points.x, points.y)
+	# rotate the points
+	pushbox_instance.set_parameters(width, height, flip_x_points)
+	return pushbox_instance
+	
 
 func create_hitbox(width, height, damage, duration, angle, angle_flipper, bk, ks, type, points, hitlag=1):
 	var hitbox_instance = hitbox.instantiate()
@@ -139,6 +151,7 @@ func _ready():
 		effectMarkerPosX[em.name] = em.position.x
 	stageScene = get_tree().current_scene
 	turn('right')
+	create_pushbox(30, 79.5, Vector2(0,6.5))
 	pass
 
 func _physics_process(_delta):

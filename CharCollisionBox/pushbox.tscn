@@ -1,11 +1,23 @@
-[gd_scene load_steps=3 format=3 uid="uid://vxm5horksa0s"]
+[gd_scene load_steps=4 format=3 uid="uid://vxm5horksa0s"]
 
 [ext_resource type="Script" uid="uid://bbb65lle5canr" path="res://CharCollisionBox/pushbox.gd" id="1_qy0x4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gueai"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qy0x4"]
+
 [node name="Pushbox" type="Area2D"]
+collision_layer = 128
+collision_mask = 128
 script = ExtResource("1_qy0x4")
 
 [node name="PushboxShape" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_gueai")
+debug_color = Color(1, 0.81666666, 0, 0.41960785)
+
+[node name="ShapeCast2D" type="ShapeCast2D" parent="."]
+shape = SubResource("RectangleShape2D_qy0x4")
+target_position = Vector2(0, 0)
+max_results = 1
+collision_mask = 128
+collide_with_areas = true
