@@ -1,4 +1,4 @@
-extends Area2D
+class_name Pushbox extends Area2D
 
 @export var width = 300
 @export var height = 400

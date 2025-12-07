@@ -1,4 +1,7 @@
-extends StateMachine
+class_name StateMachineJohn extends StateMachine
+
+## John's state machine.
+
 var id : int
 
 # Called when the node enters the scene tree for the first time.

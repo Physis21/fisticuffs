@@ -1,4 +1,4 @@
-extends Area2D
+class_name Hitbox extends Area2D
 
 @export var width = 300
 @export var height = 400
@@ -63,7 +63,7 @@ func hitbox_collide(area):
 		body._frame()
 		#print("knockbackVal = %s" % knockbackVal)
 		
-		Globals.hitstun(getHitlag(damage, hitlag_modifier), getHitlag(damage, hitlag_modifier)/60)
+		Globals.hitstun_slowdown(getHitlag(damage, hitlag_modifier), getHitlag(damage, hitlag_modifier)/60)
 		get_parent().hit_pause_dur = duration - framez
 		get_parent().temp_pos = get_parent().position
 		get_parent().temp_vel = get_parent().velocity
@@ -92,8 +92,8 @@ func _physics_process(delta: float):
 func getHitstun(kbVal):
 	return floor(kbVal / 10)
 
+## Get hitlag from damage and hitlag modifier
 func getHitlag(dam, hit):
-	# damage and hitlag modifier
 	return floor(floor(floor(dam / 3) + 4) * hit)
 
 # These variables are maybe not necessary

@@ -1,6 +1,7 @@
 # Project repository for fisticuffs_v1.0.0
 
-- Solo(-ish) personal project of a 2D fighter
+Solo(-ish) personal project of a 2D fighter
+
 - Heavily follow structures from [godot platform fighter series](https://www.youtube.com/watch?v=FKMBkZsPCCA&list=PLeJDGeZe3by2tQIJmCZfaSRl95cot070t)
 - To implement more traditional fighter-like mechanics, I differ from the tutorial greatly starting from the 5th video
 

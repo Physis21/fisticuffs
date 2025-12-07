@@ -1,7 +1,9 @@
 extends Node
+## Contains classes for storing and manipulation directions.
 
 # Classes
 
+## Direction of an input
 class InptDirection:
 	var val : String = 'neutral'
 	var xmult : int = 0
@@ -23,6 +25,7 @@ class InptDirection:
 		else:
 			return false
 
+## Direction of a character
 class CharDirection:
 	# val is either left or right atm
 	var val : String = 'right'
@@ -41,7 +44,8 @@ class CharDirection:
 			flip = true
 			xmult = -1
 
-func get_dir_val(id : int): # Apply SOCD
+## Get the direction value as [String], with an input
+func get_dir_val(id : int) -> String: # Apply SOCD
 	if Input.is_action_pressed("right_%s" % id) and Input.is_action_pressed("left_%s" % id):
 		return 'neutral'
 	elif Input.is_action_pressed("right_%s" % id):
@@ -50,7 +54,8 @@ func get_dir_val(id : int): # Apply SOCD
 		return 'left'
 	else:
 		return 'neutral'
-		
+
+## Update the velocity of a [CharacterBody2D] taking into account an [InptDirection].
 func grounded_move_x(body : CharacterBody2D, xspeed : int, direction : InptDirection):
 	body.velocity.x = direction.xmult * xspeed
 

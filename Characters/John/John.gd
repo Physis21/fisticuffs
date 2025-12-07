@@ -1,15 +1,43 @@
-extends CharacterBody2D
+class_name John extends CharacterBody2D
+## First test character.
 
 # from fox stats
 
+# JOHN's main attributes
+## Walking speed (px/frame).
+const WALKSPEED : int = 300 # 200.0 * 2
+## Running speed (px/frame).
+const RUNSPEED : int = 800 # 390 * 2
+## Duration (in frames) of the dash animation
+const DASHFRAMES : int = 16
+## Gravity constant (
+const GRAVITY : int = 1800 * 2
+const JUMPFORCE : int = 900 # actually a speed (pxl / frame)
+const MAXJUMPFORCE : int = 1200 # actually a speed
+const MAXAIRSPEED : int = 300 # 300 * 2
+const AIR_ACCEL : int = 10
+const FALLACCEL : int = 60
+const FALLINGSPEED : int = 800 # 900 * 2
+const MAXFALLSPEED : int = 800 # fastfall speed
+const TRACTION : int = 400 * 2 # acceleration
+const TRACTION_ATTACK : float = 25 # acceleration
+const PUSH_FORCE = 100
+#const MIN_PUSH_FORCE = 10
+
 # Global variables
+## Frame counter. Is added 1 each _physics_process()
 var frame = 0
-var dir = Movement.CharDirection.new()  # direction
+## Direction of character
+var dir = Movement.CharDirection.new()
 
 # Attributes
+## Character identifier, in order to differentiate simultaneous characters.
 @export var id : int
+## The higher the percentage, the further the character is knocked back after an attack.
 @export var percentage = 20
+## Character health, starts at maximum by default.
 @export var health = 1000
+## Number of times the character must be KO'ed to 
 @export var stocks = 3
 @export var weight = 100
 var freezeframes = 0
@@ -68,22 +96,6 @@ var standing_cshape = preload("res://Characters/John/cshapes/standing.tres")
 var crouching_cshape = preload("res://Characters/John/cshapes/crouching.tres")
 var standing_collision_dia = preload("res://Characters/John/cshapes/standingCollisionDia.tres")
 
-# JOHN's main attributes
-const WALKSPEED : int = 300 # 200.0 * 2
-const RUNSPEED : int = 800 # 390 * 2
-const DASHFRAMES : int = 16
-const GRAVITY : int = 1800 * 2
-const JUMPFORCE : int = 900 # actually a speed (pxl / frame)
-const MAXJUMPFORCE : int = 1200 # actually a speed
-const MAXAIRSPEED : int = 300 # 300 * 2
-const AIR_ACCEL : int = 10
-const FALLACCEL : int = 60
-const FALLINGSPEED : int = 800 # 900 * 2
-const MAXFALLSPEED : int = 800 # fastfall speed
-const TRACTION : int = 400 * 2 # acceleration
-const TRACTION_ATTACK : float = 25 # acceleration
-const PUSH_FORCE = 100
-#const MIN_PUSH_FORCE = 10
 var effectMarkerPosX : Dictionary = {}
 
 func create_pushbox(width, height, points):
@@ -179,7 +191,7 @@ func apply_hit_pause(delta):
 # Attacks
 func s5A():
 	if frame == 9:
-		create_hitbox(40, 20, 8, 9, 0, 0, 160, 1, 'normal', Vector2(64, -25), 1)
+		create_hitbox(40, 20, 8, 9, 10, 0, 160, 1, 'normal', Vector2(64, -25), 1)
 	if frame >= 26:
 		return true
 		
