@@ -3,8 +3,8 @@ class_name Pushbox extends Area2D
 
 @export var width : float = 300 ## Width of [CollisionShape2D] and [ShapeCast2D] rectangle.
 @export var height : float = 400 ## Height of [CollisionShape2D] and [ShapeCast2D] rectangle.
-@onready var pushbox : CollisionShape2D = get_node("PushboxShape")
-@onready var shapecast : ShapeCast2D = get_node("ShapeCast2D")
+@onready var pushbox : CollisionShape2D = get_node("PushboxShape") ## Child [CollisionShape2D] node.
+@onready var shapecast : ShapeCast2D = get_node("ShapeCast2D") ## Child [ShapeCast2D] node.
 @onready var parentState : String = get_parent().selfState ## State of character (not that of its state machine).
 
 var right_side_xpos : float = self.global_position.x + width ## X position of [ShapeCast2D] right side.
@@ -53,16 +53,17 @@ func pushbox_overlap(area : Area2D) -> void:
 			else:
 				adjustement = left_gap
 		# Apply weight
-		var parent_weight = get_parent().weight
-		var weighted_adjustement = adjustement * parent_weight / (body.weight + parent_weight)
+		var parent_weight = get_parent().WEIGHT
+		var weighted_adjustement = adjustement * parent_weight / (body.WEIGHT + parent_weight)
 		get_parent().position.x += adjustement - weighted_adjustement
 		body.position.x -= weighted_adjustement
 		
-
+## Update the size of the [CollisionShape2D] and [ShapeCast2D].
 func update_extents():
 	pushbox.shape.extents = Vector2(width, height)
 	shapecast.shape.extents = Vector2(width, height)
 
+## Update the position of right and left sides of the [CollisionShape2D] and [ShapeCast2D].
 func update_side_pos():
 	right_side_xpos = self.global_position.x + width
 	left_side_xpos = self.global_position.x - width

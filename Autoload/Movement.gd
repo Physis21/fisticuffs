@@ -56,7 +56,7 @@ func get_dir_val(id : int) -> String: # Apply SOCD
 		return 'neutral'
 
 ## Update the velocity of a [CharacterBody2D] taking into account an [InptDirection].
-func grounded_move_x(body : CharacterBody2D, xspeed : int, direction : InptDirection):
+func grounded_move_x(body : CharacterBody2D, xspeed : float, direction : InptDirection) -> void:
 	body.velocity.x = direction.xmult * xspeed
 
 

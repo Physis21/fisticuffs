@@ -1,8 +1,5 @@
 class_name StateMachineJohn extends StateMachine
-
 ## John's state machine.
-
-var id : int ## Gets initialized to parent id in _ready()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

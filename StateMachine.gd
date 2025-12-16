@@ -4,6 +4,7 @@ class_name StateMachine
 var state : String = "NULL" : set = set_state
 var previous_state : String = "NULL"
 var states : Dictionary = {}
+var id : int ## Gets initialized to parent id in _ready()
 
 @onready var parent = get_parent()
 
@@ -25,8 +26,11 @@ func enter_state(_new_state, _old_state):
 
 func exit_state(_old_state, _new_state):
 	pass
-	
-func set_state(new_state : String):
+
+## Setter for [StateMachine.state]. 
+## Current state is sent to [StateMachine.previous_state], and new state is set to [StateMachine.state].
+## Then [exit_state()] and [enter_state()] are run.
+func set_state(new_state : String) -> void:
 	previous_state = state
 	state = new_state
 	if previous_state != null:

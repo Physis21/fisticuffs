@@ -4,38 +4,31 @@ class_name John extends CharacterBody2D
 # from fox stats
 
 # JOHN's main attributes
-const WALKSPEED : int = 300 ## Walking speed (px/frame).
-const RUNSPEED : int = 800 ## Running speed (px/frame).
+const MAXHEALTH : float = 150 ## Maximum health.
+const WEIGHT : float = 100 ## Weight of the character (used to compute knockback values).
+const WALKSPEED : float = 300 ## Walking speed (px/frame).
+const RUNSPEED : float = 800 ## Running speed (px/frame).
 const DASHFRAMES : int = 16 ## Duration (in frames) of the dash animation.
 const JUMPFORCE : int = 900 ## Vertical speed induced by short hop (px/frame).
-const MAXJUMPFORCE : int = 1200 ## Vertical speed induced by jump (px/frame).
-const MAXAIRSPEED : int = 300 ## Maximum horizontal air speed.
-const AIR_ACCEL : int = 10 ## Maximum horizontal air acceleration.
-const FALLACCEL : int = 60 ## Falling acceleration (gravity) of the character.
-const FALLINGSPEED : int = 800 ## Falling speed
-const MAXFALLSPEED : int = 800 ## Fastfall falling speed
-const TRACTION : int = 400 * 2 ## Decelleration due to grounded traction (px/frame²)
+const MAXJUMPFORCE : float = 1200 ## Vertical speed induced by jump (px/frame).
+const MAXAIRSPEED : float = 300 ## Maximum horizontal air speed.
+const AIR_ACCEL : float = 10 ## Maximum horizontal air acceleration.
+const FALLACCEL : float = 60 ## Falling acceleration (gravity) of the character.
+const FALLINGSPEED : float = 800 ## Falling speed
+const MAXFALLSPEED : float = 800 ## Fastfall falling speed
+const TRACTION : float = 400 * 2 ## Decelleration due to grounded traction (px/frame²)
 const TRACTION_ATTACK : float = 25 ## Traction due to grounded attacks (px/frame²)
-const PUSH_FORCE = 100 
-#const MIN_PUSH_FORCE = 10
 
 # Global variables
 var frame : int = 0 ## Frame counter. Is added 1 each _physics_process().
 var dir : Movement.CharDirection = Movement.CharDirection.new() ## Direction of character.
 
 # Attributes
-## Character identifier, in order to differentiate simultaneous characters.
-@export var id : int
-## The higher the percentage, the further the character is knocked back after an attack.
-@export var percentage : float = 20
-## Character health, starts at maximum by default.
-@export var health : float = 1000
-## Number of times the character must be KO'ed to.
-@export var stocks : int = 3
-## Weight of the character (used to compute knockback values).
-@export var weight : float = 100.
-## Number of frames the character is frozen. Is updated when struck by hitbox.
-var freezeframes : int = 0
+@export var id : int ## Character identifier, in order to differentiate simultaneous characters.
+@export var percentage : float = 20 ## The higher the percentage, the further the character is knocked back after an attack.
+@export var health : float = MAXHEALTH : set = set_health ## Character health, starts at maximum by default.
+@export var stocks : int = 3 ## Number of times the character must be KO'ed to.
+var freezeframes : int = 0 ## Number of frames the character is frozen. Is updated when struck by hitbox.
 
 # Buffers
 var wallcling_max : int = 90 ## Maximum number of frames the wallcling can be held.
@@ -86,7 +79,6 @@ var stageScene = null  # initialized in _ready()
 # Preload collision shapes
 var standing_cshape = preload("res://Characters/John/cshapes/standing.tres")
 var crouching_cshape = preload("res://Characters/John/cshapes/crouching.tres")
-var standing_collision_dia = preload("res://Characters/John/cshapes/standingCollisionDia.tres")
 
 var effectMarkerPosX : Dictionary = {} ## Stores the spawn positions of effect animations.
 
@@ -141,6 +133,7 @@ func turn(dirVal : String) -> void:
 	$Sprite.set_flip_h(dir.flip)
 	for em in effectMarkers:
 		em.position.x = effectMarkerPosX[em.name] * dir.xmult
+	$HurtBoxes.scale.x = dir.xmult
 		
 		
 
@@ -178,11 +171,6 @@ func _ready():
 func _physics_process(_delta):
 	$Frames.text = str(frame)
 	selfState = displayedState.text
-	#for i in get_slide_collision_count():
-		#var c = get_slide_collision(i)
-		#if c.get_collider() is CharacterBody2D:
-			#print("c normal = %s" % c.get_normal())
-			#c.get_collider().velocity += -c.get_normal() * PUSH_FORCE
 
 ## Freezes the character during hit pause.
 func apply_hit_pause(delta):
@@ -197,7 +185,11 @@ func apply_hit_pause(delta):
 		hit_pause_dur = 0
 		hit_pause = 0
 			
-	
+func set_health(new_health : float) -> void:
+	health = new_health
+	#emit_signal("Char%s health ")
+	pass
+
 # Attacks
 func s5A():
 	if frame == 9:

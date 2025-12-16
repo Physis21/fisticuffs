@@ -64,7 +64,7 @@ func hitbox_collide(area: Area2D) -> void:
 		player_list.append(body)
 		var charstate
 		charstate = body.get_node("StateMachine")
-		weight = body.weight
+		weight = body.WEIGHT
 		body.health -= damage
 		knockbackVal = getKnockback(body.percentage, damage, weight, base_kb, kb_scaling, 1)
 		apply_turnaround(body)
