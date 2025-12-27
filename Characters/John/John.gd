@@ -120,6 +120,7 @@ func _ready():
 func _physics_process(_delta):
 	$Frames.text = str(frame)
 	selfState = displayedState.text
+	$Health.text = "%.1f HP" % health
 
 ## Freezes the character during hit pause.
 func apply_hit_pause(delta):

@@ -23,14 +23,14 @@ grow_horizontal = 2
 grow_vertical = 0
 metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="MarginContainer"]
+[node name="Label0" type="Label" parent="MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_fonts/font = ExtResource("2_vp612")
 theme_override_font_sizes/font_size = 30
 text = "Character 1 UI"
 
-[node name="Label2" type="Label" parent="MarginContainer"]
+[node name="Label1" type="Label" parent="MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 theme_override_fonts/font = ExtResource("2_vp612")

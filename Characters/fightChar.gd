@@ -1,6 +1,8 @@
 class_name fightChar extends CharacterBody2D
 ## Base class of all fighting characters.
 
+signal health_update(id, old_value, new_value) ## Character health is updated
+
 # Character attributes to set.
 @export_group("Constant attributes")
 @export var MAXHEALTH : float ## Maximum health.
@@ -24,7 +26,7 @@ var dir : Movement.CharDirection  = Movement.CharDirection.new() ## Direction of
 
 # Variable attributes
 @export_group("Variable attributes")
-@export var id : int = 1 ## Character identifier, in order to differentiate simultaneous characters.
+@export var id : int = 0 ## Character identifier, in order to differentiate simultaneous characters.
 @export var percentage : float = 20 ## The higher the percentage, the further the character is knocked back after an attack.
 @export var health : float = MAXHEALTH : set = set_health ## Character health, starts at maximum by default.
 @export var stocks : int = 3 ## Number of times the character must be KO'ed to.
@@ -57,7 +59,11 @@ var hit_pause_dur : int = 0 ## Duration of the hit pause.
 var temp_pos = Vector2(0,0) ## Stored position of character during hit pause.
 var temp_vel = Vector2(0,0) ## Stored velocity of character during hit pause.
 
+func _ready() -> void:
+	#health_update.connect(set_health)
+	pass
+
 func set_health(new_health : float) -> void:
+	health_update.emit(id, health, new_health)
 	health = new_health
-	#emit_signal("Char%s health ")
 	pass

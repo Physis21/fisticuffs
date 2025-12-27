@@ -61,7 +61,7 @@ position = Vector2(338, 679)
 
 [node name="JOHN2" parent="." groups=["Players"] instance=ExtResource("2_ea7ob")]
 position = Vector2(737, 679)
-id = 2
+id = 1
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

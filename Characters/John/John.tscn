@@ -1417,6 +1417,7 @@ FALLINGSPEED = 800.0
 MAXFALLSPEED = 800.0
 TRACTION = 800.0
 TRACTION_ATTACK = 25.0
+health = 150.0
 pushbox = ExtResource("2_jgt4k")
 hitbox = ExtResource("3_hfx4g")
 
@@ -1489,6 +1490,13 @@ offset_right = 22.0
 offset_bottom = -85.0
 text = "Test"
 horizontal_alignment = 1
+
+[node name="Health" type="Label" parent="."]
+offset_left = -18.0
+offset_top = -153.0
+offset_right = 22.0
+offset_bottom = -130.0
+text = "Test"
 
 [node name="EffectMarkers" type="Node2D" parent="."]
 

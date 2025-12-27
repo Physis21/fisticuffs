@@ -14,6 +14,6 @@ func clampf_abs_zero(x: float) -> float:
 func hitstun_slowdown(hitlag : int) -> void:
 	var duration : float = float(hitlag) / 60
 	Engine.time_scale = float(hitlag) / 50
-	print("Engine time scale = %f" % Engine.time_scale)
+	#print("Engine time scale = %f" % Engine.time_scale)
 	await get_tree().create_timer(duration * Engine.time_scale).timeout
 	Engine.time_scale = 1

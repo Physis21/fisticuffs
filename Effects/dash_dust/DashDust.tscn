@@ -1,6 +1,6 @@
 [gd_scene load_steps=15 format=3 uid="uid://c205r5ewmcw4a"]
 
-[ext_resource type="Script" uid="uid://bi15oamkwwdc6" path="res://Effects/dash_dust/DashDust.gd" id="1_pyh64"]
+[ext_resource type="Script" uid="uid://bi15oamkwwdc6" path="res://Effects/dash_dust/dashDust.gd" id="1_pyh64"]
 [ext_resource type="Texture2D" uid="uid://bissgmy4u4wxq" path="res://Effects/dash_dust/frame0000.png" id="2_n8lbq"]
 [ext_resource type="Texture2D" uid="uid://uy3h2ab6iicb" path="res://Effects/dash_dust/frame0001.png" id="3_4guwy"]
 [ext_resource type="Texture2D" uid="uid://e0k11kshf75p" path="res://Effects/dash_dust/frame0002.png" id="4_kldv2"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://dwknxjsi5q03p" path="res://Effects/dash_dust/frame0006.png" id="8_3582j"]
 [ext_resource type="Texture2D" uid="uid://b1nxi2mshy54g" path="res://Effects/dash_dust/frame0007.png" id="9_j707h"]
 [ext_resource type="Texture2D" uid="uid://cnqvcnrf7l000" path="res://Effects/dash_dust/frame0008.png" id="10_2nmsy"]
+
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_k0hbf"]
 animations = [{

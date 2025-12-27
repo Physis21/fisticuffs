@@ -1,6 +1,6 @@
 [gd_scene load_steps=15 format=3 uid="uid://mbl624x0tqrh"]
 
-[ext_resource type="Script" uid="uid://bqwgqnldtktgg" path="res://Effects/landing_effect/LandingRipple.gd" id="1_dbvvl"]
+[ext_resource type="Script" uid="uid://bqwgqnldtktgg" path="res://Effects/landing_effect/landingRipple.gd" id="1_dbvvl"]
 [ext_resource type="Texture2D" uid="uid://br0xrr2jovl8r" path="res://Effects/landing_effect/frame0000.png" id="1_onbdd"]
 [ext_resource type="Texture2D" uid="uid://dvxvy8wrfloft" path="res://Effects/landing_effect/frame0001.png" id="2_dbvvl"]
 [ext_resource type="Texture2D" uid="uid://b5i1babro3820" path="res://Effects/landing_effect/frame0002.png" id="3_bkfhu"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://t0dq1jb72bye" path="res://Effects/landing_effect/frame0006.png" id="7_41ahu"]
 [ext_resource type="Texture2D" uid="uid://dnktc33fgq2pa" path="res://Effects/landing_effect/frame0007.png" id="8_1hr6g"]
 [ext_resource type="Texture2D" uid="uid://c30gg70sdbq0y" path="res://Effects/landing_effect/frame0008.png" id="9_8np4c"]
+
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_c1i0m"]
 animations = [{
