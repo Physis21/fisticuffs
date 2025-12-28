@@ -1491,13 +1491,6 @@ offset_bottom = -85.0
 text = "Test"
 horizontal_alignment = 1
 
-[node name="Health" type="Label" parent="."]
-offset_left = -18.0
-offset_top = -153.0
-offset_right = 22.0
-offset_bottom = -130.0
-text = "Test"
-
 [node name="EffectMarkers" type="Node2D" parent="."]
 
 [node name="DashDustMarker" type="Marker2D" parent="EffectMarkers" groups=["EffectMarkers"]]

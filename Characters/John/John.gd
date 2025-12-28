@@ -109,6 +109,7 @@ func play_effect(effect_name : String) -> void:
 
 # called when the node enters the scene_tree for the first time
 func _ready():
+	set_health(MAXHEALTH)
 	previous_mov_input.set_val('neutral')
 	for em in effectMarkers:
 		effectMarkerPosX[em.name] = em.position.x
@@ -120,7 +121,6 @@ func _ready():
 func _physics_process(_delta):
 	$Frames.text = str(frame)
 	selfState = displayedState.text
-	$Health.text = "%.1f HP" % health
 
 ## Freezes the character during hit pause.
 func apply_hit_pause(delta):
@@ -134,11 +134,6 @@ func apply_hit_pause(delta):
 			temp_vel = Vector2(0,0)
 		hit_pause_dur = 0
 		hit_pause = 0
-			
-func set_health(new_health : float) -> void:
-	health = new_health
-	#emit_signal("Char%s health ")
-	pass
 
 # Attacks
 func s5A():

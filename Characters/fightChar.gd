@@ -1,7 +1,7 @@
 class_name fightChar extends CharacterBody2D
 ## Base class of all fighting characters.
 
-signal health_update(id, old_value, new_value) ## Character health is updated
+signal health_update(id, max_health, old_health, new_health) ## Character health is updated
 
 # Character attributes to set.
 @export_group("Constant attributes")
@@ -59,11 +59,7 @@ var hit_pause_dur : int = 0 ## Duration of the hit pause.
 var temp_pos = Vector2(0,0) ## Stored position of character during hit pause.
 var temp_vel = Vector2(0,0) ## Stored velocity of character during hit pause.
 
-func _ready() -> void:
-	#health_update.connect(set_health)
-	pass
-
 func set_health(new_health : float) -> void:
-	health_update.emit(id, health, new_health)
+	health_update.emit(id, MAXHEALTH, health, new_health)
 	health = new_health
 	pass
