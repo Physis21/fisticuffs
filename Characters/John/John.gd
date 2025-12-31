@@ -16,7 +16,7 @@ var walljumped : bool = false ## True if the character has walljumped while airb
 @export var LandingRipple: PackedScene
 
 # Onready Variables
-@onready var GroundL : RayCast2D= $Raycasts/GroundL ## (Left) raycast checking for ground.
+@onready var GroundL : RayCast2D = $Raycasts/GroundL ## (Left) raycast checking for ground.
 @onready var GroundR : RayCast2D = $Raycasts/GroundR ## (Right) raycast checking for ground.
 @onready var WallL : RayCast2D = $Raycasts/WallL ## (Left) raycast checking for wall.
 @onready var WallR : RayCast2D = $Raycasts/WallR ## (Right) raycast checking for ground.

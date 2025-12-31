@@ -59,6 +59,7 @@ var hit_pause_dur : int = 0 ## Duration of the hit pause.
 var temp_pos = Vector2(0,0) ## Stored position of character during hit pause.
 var temp_vel = Vector2(0,0) ## Stored velocity of character during hit pause.
 
+## Emits a [signal health_update] signal 
 func set_health(new_health : float) -> void:
 	health_update.emit(id, MAXHEALTH, health, new_health)
 	health = new_health
