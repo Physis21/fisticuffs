@@ -522,8 +522,8 @@ func WallCling(direction : Movement.InptDirection):
 			parent.velocity.y = 0
 			parent.velocity.x = 0
 			parent.fastfall = false
-			parent.previous_mov_input.set_val(direction.val)
-			parent.turn(direction.val)
+			parent.previous_mov_input.set_val(dir_just_pressed)
+			parent.turn(dir_just_pressed)
 			return true
 
 var kbx
