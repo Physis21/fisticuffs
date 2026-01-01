@@ -1,18 +1,27 @@
-[gd_scene load_steps=6 format=3 uid="uid://pns8v8qpyruy"]
+[gd_scene load_steps=8 format=3 uid="uid://pns8v8qpyruy"]
 
 [ext_resource type="Script" uid="uid://cmkhymegxnvyw" path="res://UI/CombatUI/combat_ui.gd" id="1_qfhr5"]
 [ext_resource type="FontFile" uid="uid://du4ndt4r8juir" path="res://Fonts/Dream Orphans.otf" id="2_vp612"]
+[ext_resource type="PackedScene" uid="uid://dfy4kwtk1ygpm" path="res://UI/CombatUI/health_bar.tscn" id="3_yow2f"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_vp612"]
 font_size = 30
-font_color = Color(0, 1, 0, 1)
+outline_size = 10
+outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_mwiea"]
 font_size = 30
 
 [sub_resource type="LabelSettings" id="LabelSettings_yow2f"]
 font_size = 30
-font_color = Color(0, 1, 0, 1)
+outline_size = 10
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_lyf2x"]
+font = ExtResource("2_vp612")
+font_size = 24
+outline_size = 10
+outline_color = Color(0.10980392, 0.15686275, 0.09019608, 1)
 
 [node name="CombatUi" type="Control"]
 layout_mode = 3
@@ -25,24 +34,57 @@ script = ExtResource("1_qfhr5")
 
 [node name="SecondsTimer" type="Timer" parent="."]
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="HealthBarRight" parent="." instance=ExtResource("3_yow2f")]
 layout_mode = 1
 anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 0.1
+anchor_left = 0.6
+anchor_top = 0.02
+anchor_right = 0.98
+anchor_bottom = 0.06
+offset_right = 0.0
+offset_bottom = 1.0
+grow_horizontal = 1
+grow_vertical = 1
+
+[node name="HealthBarLeft" parent="." instance=ExtResource("3_yow2f")]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.02
+anchor_top = 0.02
+anchor_right = 0.4
+anchor_bottom = 0.06
+offset_right = 0.0
+offset_bottom = 1.0
+grow_horizontal = 1
+grow_vertical = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+z_index = 2
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.02
+anchor_top = 0.02
+anchor_right = 0.98
+anchor_bottom = 0.06
 offset_left = 10.0
 offset_right = -10.0
 grow_horizontal = 2
 grow_vertical = 0
 metadata/_edit_use_anchors_ = true
 
-[node name="Label0" type="Label" parent="MarginContainer"]
+[node name="HealthTxt0" type="Label" parent="MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_fonts/font = ExtResource("2_vp612")
 theme_override_font_sizes/font_size = 30
-text = "Character 1 UI"
+text = "Health1"
 label_settings = SubResource("LabelSettings_vp612")
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+color = Color(0, 0.011764706, 0.19607843, 1)
 
 [node name="TimeCounter" type="Label" parent="MarginContainer"]
 layout_mode = 2
@@ -53,23 +95,35 @@ label_settings = SubResource("LabelSettings_mwiea")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label1" type="Label" parent="MarginContainer"]
+[node name="HealthTxt1" type="Label" parent="MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 theme_override_fonts/font = ExtResource("2_vp612")
 theme_override_font_sizes/font_size = 30
-text = "Character 2 UI"
+text = "Health2"
 label_settings = SubResource("LabelSettings_yow2f")
 
-[node name="MarginContainer2" type="MarginContainer" parent="."]
+[node name="CharNames" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 0.1
-anchor_right = 1.0
-anchor_bottom = 0.153
+anchor_left = 0.02
+anchor_top = 0.065
+anchor_right = 0.98
+anchor_bottom = 0.1
 offset_left = 10.0
 offset_right = -10.0
-grow_horizontal = 2
-grow_vertical = 0
+grow_vertical = 2
+
+[node name="Name0" type="Label" parent="CharNames"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Name0"
+label_settings = SubResource("LabelSettings_lyf2x")
+
+[node name="Name1" type="Label" parent="CharNames"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Name1"
+label_settings = SubResource("LabelSettings_lyf2x")
 
 [connection signal="timeout" from="SecondsTimer" to="." method="_on_seconds_timer_timeout"]

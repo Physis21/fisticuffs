@@ -1,16 +1,18 @@
 class_name TestStage extends Node2D
+## Starter script for a stage.
 
-@onready var combat_ui = $CanvasLayer/CombatUi
-@onready var pause_menu = $CanvasLayer/PauseMenu
-var paused : bool = false ## Check whether menu is paused or not
-var players_group
+@onready var combat_ui = $CanvasLayer/CombatUi ## Combat UI in canvas layer.
+@onready var pause_menu = $CanvasLayer/PauseMenu ## Pause menu in canvas layer.
+var paused : bool = false ## Check whether menu is paused or not.
+var players_group ## Array containing all players.
+
+signal init_combat_ui(_players_group : Array) ## Signal to combat UI to initialize the game
 
 func _ready():
 	# ! The combat UI should _enter_tree() after the characters
 	players_group = get_tree().get_nodes_in_group("Players")
-	for player : fightChar in players_group:
-		player.health_update.connect(combat_ui.set_health)
-		player.health = player.MAXHEALTH
+	init_combat_ui.connect(combat_ui.start_game)
+	init_combat_ui.emit(players_group)
 
 func _process(_delta: float) -> void:
 	pass

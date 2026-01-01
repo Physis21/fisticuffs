@@ -4,6 +4,7 @@ class_name fightChar extends CharacterBody2D
 signal health_update(id, max_health, old_health, new_health) ## Character health is updated
 
 # Character attributes to set.
+@export var char_name : String = "John" ## Character name
 @export_group("Constant attributes")
 @export var MAXHEALTH : float ## Maximum health.
 @export var WEIGHT : float ## Weight of the character (used to compute knockback values).

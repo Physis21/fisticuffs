@@ -1,15 +1,18 @@
 class_name HealthBar extends ProgressBar
+## ProgressBar display of character health values.
 
-@onready var timer = $Timer
-@onready var damage_bar = $DamageBar
+@onready var timer = $Timer ## Timer counting when the red health dissapears.
+@onready var damage_bar = $DamageBar ## Displays temporary red health.
 
 #@export var player_nb = 2
 
 signal health_zero ## Signal the health has reached 0.
 
-var health = 0 : set = _set_health
+var health = 0 : set = set_health ## Current health value.
 
-func _set_health(new_health):
+## Sets progress bar value according to [new_health],
+## and emits the [health_zero] signal if health reaches zero.
+func set_health(new_health):
 	var prev_health = health
 	health = min(max_value, new_health)
 	value = health
