@@ -1,41 +1,31 @@
 # Project repository for fisticuffs_v1.0.0
 
-Solo(-ish) personal project of a 2D fighter
+Solo(-ish) personal project of a 2D fighter. This is also a useful reference for godot game development, as fighting games are quite complex in terms of state machines.
 
-- Heavily follow structures from [godot platform fighter series](https://www.youtube.com/watch?v=FKMBkZsPCCA&list=PLeJDGeZe3by2tQIJmCZfaSRl95cot070t)
-- To implement more traditional fighter-like mechanics, I differ from the tutorial greatly starting from the 5th video
+- This project heavily follow the structure of the [godot platform fighter series](https://www.youtube.com/watch?v=FKMBkZsPCCA&list=PLeJDGeZe3by2tQIJmCZfaSRl95cot070t), on youtube.
+- To implement more traditional fighter-like mechanics, **I differ from the tutorial greatly starting from the 5th video**
 
 ## Requirements and installing
 
 - Clone the repository into a local directory
-- Download godot ver4.5 stable for your OS: [download link](https://godotengine.org/download/archive/4.5-stable/)
+- Download **godot ver4.5 stable** for your OS: [download link](https://godotengine.org/download/archive/4.5-stable/)
   - Advantage of being very lightweight and portable
 - From the godot executable, **import** the local directory of the project (`Ctrl+I`) and edit it (select then `Ctrl+E`)
   - This will re-import the assets into the godot project
   - This step is important otherwise some textures will not appear when just running the game directly
-- Run the game from the godot game engine with `F5`
+- Run the game from the godot game engine with `F5`. This will run the main menu, from which the test stage can be accessed.
 
 ## Dimensions
 
-- For now, keep 1200px width and 900px height, for a 4:3 ratio like [*Street Fighter 3 : Third Strike*](https://en.wikipedia.org/wiki/Street_Fighter_III:_3rd_Strike) and [*Melty Blood : Actress Again Current Code*](https://en.wikipedia.org/wiki/Melty_Blood)
-
-## Differences with respect to tutorial
-
-- Rename the frame function to `_frame()`, in order to not be redundant with `frame` var
+- For now, keep 1200px width and 900px height, for a 4:3 ratio like [_Street Fighter 3 : Third Strike_](https://en.wikipedia.org/wiki/Street_Fighter_III:_3rd_Strike) and [*Melty Blood : Actress Again Current Code*](https://en.wikipedia.org/wiki/Melty_Blood)
 
 ## Game progression
 
 - Single character with animations (John)
 - Movement (running and walljumps), attack and hitstun states functionnal
-- Player-to-Player pushing **work in progress**
-- No healthbars yet
+- Player-to-Player pushing like in Street fighter (no ECB like in Smash. Bros. Melee)
+- Basic healthbars
 - Very basic intro menu
-
-## Tutorial progression
-
-- Part 12, 05:08 (Hitlag)
-- Small changes to do in "Revamping your Plat... Godot 4.0", which are possible reasons for bugs before this video
-- Replace clamp and lerp by `clampf` and `lerpf` for floats, or corresponding functions for ints
 
 ## Unit testing
 
@@ -43,5 +33,9 @@ Solo(-ish) personal project of a 2D fighter
 
 ## TODO
 
-- Pushboxes to implement **street-fighter like collision**, as opposed to smash-like collision with ECBs
+- Navigate main menu using keyboard controls
+- Add controls help (on sides of screen?)
+- Add defensive mechanics (shield/block)
+- Draw and implement updated animations
+- Make UI add health bars according to the number of characters present.
 - Shoot locations for stage backgrounds
